@@ -14,9 +14,9 @@ class _JobsListPageState extends State<JobsListPage> {
   int _selectedIndex = 0; // Индекс для отслеживания текущего выбранного элемента
 
   final List<Widget> _widgetOptions = [
-    Text('Главная'), // Замените на ваш виджет для /tinder
-    Text('Профиль'), // Замените на ваш виджет для /profile
-    Text('Поддержка'), // Замените на ваш виджет для /support
+    const Text('Главная'), // Замените на ваш виджет для /tinder
+    const Text('Профиль'), // Замените на ваш виджет для /profile
+    const Text('Поддержка'), // Замените на ваш виджет для /support
   ];
 
   void _onItemTapped(int index) {
@@ -49,17 +49,22 @@ class _JobsListPageState extends State<JobsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Список вакансий'),
+      backgroundColor: const Color(0xFFFCFAEE),
+    appBar: AppBar(
+      backgroundColor: const Color(0xFFFCFAEE),
+
+      title: const Text('Мои объявления',
+        style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
       ),
+    ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('jobs').where('employerId', isEqualTo: _auth.currentUser?.uid).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (!snapshot.hasData) {
-            return Center(child: Text('Нет данных'));
+            return const Center(child: Text('Нет данных'));
           }
           final jobs = snapshot.data!.docs;
 
@@ -69,29 +74,52 @@ class _JobsListPageState extends State<JobsListPage> {
               final job = jobs[index];
               final jobData = job.data() as Map<String, dynamic>;
               jobData['id'] = job.id; // Добавляем id для последующего использования
+              return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 120,
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: Colors.white,
+                      child: ListTile(
+                        title: Text(
+                          jobData['title'] ?? 'Без названия',
+                          style: const TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w900, color: Color(0xFF343434)),
 
-              return ListTile(
-                title: Text(jobData['title'] ?? 'Без названия'),
-                subtitle: Text(jobData['description'] ?? 'Без описания'),
-                trailing: PopupMenuButton<String>(
-                  onSelected: (String value) {
-                    if (value == 'edit') {
-                      _editJob(jobData);
-                    } else if (value == 'delete') {
-                      _deleteJob(job.id);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                    const PopupMenuItem<String>(
-                      value: 'edit',
-                      child: Text('Редактировать'),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          jobData['description'] ?? 'Без описания',
+                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                        trailing: PopupMenuButton<String>(
+                          onSelected: (String value) {
+                            if (value == 'edit') {
+                              _editJob(jobData);
+                            } else if (value == 'delete') {
+                              _deleteJob(job.id);
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'edit',
+                              child: Text('Редактировать'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'delete',
+                              child: Text('Удалить'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    const PopupMenuItem<String>(
-                      value: 'delete',
-                      child: Text('Удалить'),
-                    ),
-                  ],
-                ),
+                  ),
               );
             },
           );
@@ -103,27 +131,29 @@ class _JobsListPageState extends State<JobsListPage> {
             MaterialPageRoute(builder: (context) => JobPage()),
           );
         },
-        child: Icon(Icons.add),
+        backgroundColor: Colors.white, // Укажите нужный цвет здесь
+
+        child: const Icon(Icons.add),
         tooltip: 'Добавить вакансию',
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_sharp),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_sharp),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.support_agent),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов+
+        selectedItemColor: const Color(0xFF93D56F),
+        unselectedItemColor: Colors.grey, // Цвет неактивных элементов
         onTap: _onItemTapped,
       ),
     );

@@ -14,10 +14,10 @@ class _FavoritePageState extends State<FavoritePage> {
 
   // Список виджетов для каждой страницы
   final List<Widget> _widgetOptions = [
-    Text('Главная'), // Замените на ваш виджет для /tinder
-    Text('Проекты'), // Замените на ваш виджет для /projects
-    Text('Профиль'), // Замените на ваш виджет для /profile
-    Text('Поддержка'), // Замените на ваш виджет для /support
+    const Text('Главная'), // Замените на ваш виджет для /tinder
+    const Text('Проекты'), // Замените на ваш виджет для /projects
+    const Text('Профиль'), // Замените на ваш виджет для /profile
+    const Text('Поддержка'), // Замените на ваш виджет для /support
   ];
 
   void _onItemTapped(int index) {
@@ -60,52 +60,113 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Лайкнутые объявления"),
+        backgroundColor: const Color(0xFFFCFAEE),
+
+        title: const Text('Мои проекты',
+          style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
+        ),
       ),
+      backgroundColor: const Color(0xFFFCFAEE),
       body: FutureBuilder<List<DocumentSnapshot>>(
         future: getLikedJobs(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text("Произошла ошибка"));
+            return const Center(child: Text("Произошла ошибка"));
           } else if (snapshot.data!.isEmpty) {
-            return Center(child: Text("Нет лайкнутых объявлений"));
+            return const Center(child: Text("Нет лайкнутых объявлений"));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var jobData = snapshot.data![index].data() as Map<String, dynamic>;
-                return ListTile(
-                  title: Text(jobData['title'] ?? 'Без названия'),
-                  subtitle: Text(jobData['description'] ?? 'Без описания'),
-                  onTap: () {
-                    // Показываем AlertDialog с контактами
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Контакты работодателя'),
-                          content: Text(jobData['contactLink'] ?? 'Нет контактов'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Закрыть'),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // Закрываем диалог
-                              },
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 120,
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: Colors.white,
+                      child: ListTile(
+                        title: Text(
+                          jobData['title'] ?? 'Без названия',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          jobData['description'] ?? 'Без описания',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        onTap: () => showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => FractionallySizedBox(
+                            heightFactor: 0.8, // Высота модального окна как 50% от высоты экрана
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              // Удалите width, чтобы Container растягивался на всю ширину экрана
+                              width: MediaQuery.of(context).size.width,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  Center( // Добавляем Center для центрирования текста
+                                    child: Text(
+                                      jobData['contactLink'] ?? 'Нет контактов',
+                                      style: const TextStyle(fontSize: 30, fontFamily: 'Inter', fontWeight: FontWeight.w900, color: Color(0xFF343434)),
+                                      textAlign: TextAlign.center, // Центрируем текст внутри Text виджета
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+
+                                          Text(
+
+                                            jobData['title'] ?? 'Без названия',
+                                            style: const TextStyle(fontSize: 22, fontFamily: 'Inter', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                                          ),
+                                          const SizedBox(height: 10),
+
+                                          Text(
+                                            jobData['description'] ?? 'Без описания',
+                                            style: const TextStyle(fontSize: 18, fontFamily: 'Inter', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                          ),
+                      ),),
+                    ),
+                  ),
                 );
               },
             );
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
+
+
+  bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_sharp),
@@ -120,12 +181,12 @@ class _FavoritePageState extends State<FavoritePage> {
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message_sharp),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF93D56F),
+        selectedItemColor: const Color(0xFF93D56F),
         unselectedItemColor: Colors.grey, // Цвет неактивных элементов+
         onTap: _onItemTapped,
       ),

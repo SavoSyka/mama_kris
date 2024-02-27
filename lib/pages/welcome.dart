@@ -102,7 +102,7 @@ class WelcomePage extends StatelessWidget {
                 minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 50
               ),
               onPressed: () {
-                Navigator.pop;
+                Navigator.pop(context);
               },
               child: Text(
                   'Назад',

@@ -18,12 +18,6 @@ class TinderPageState extends State<TinderPage> {
   int _selectedIndex = 0; // Индекс для отслеживания текущего выбранного элемента
   bool _isLoading = true; // Индикатор загрузки
 
-  final List<Widget> _widgetOptions = [
-    Text('Главная'), // Замените на ваш виджет для /tinder
-    Text('Проекты'), // Замените на ваш виджет для /projects
-    Text('Профиль'), // Замените на ваш виджет для /profile
-    Text('Поддержка'), // Замените на ваш виджет для /support
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -237,7 +231,7 @@ Widget build(BuildContext context) {
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message_sharp),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],

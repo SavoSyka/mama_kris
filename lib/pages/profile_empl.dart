@@ -10,9 +10,9 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
 
   // Список виджетов для каждой страницы
   final List<Widget> _widgetOptions = [
-    Text('Главная'), // Замените на ваш виджет для /tinder
-    Text('Профиль'), // Замените на ваш виджет для /profile
-    Text('Поддержка'), // Замените на ваш виджет для /support
+    const Text('Главная'), // Замените на ваш виджет для /tinder
+    const Text('Профиль'), // Замените на ваш виджет для /profile
+    const Text('Поддержка'), // Замените на ваш виджет для /support
   ];
 
   void _onItemTapped(int index) {
@@ -46,20 +46,20 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_sharp),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_sharp),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.support_agent),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: const Color(0xFF93D56F),
         unselectedItemColor: Colors.grey, // Цвет неактивных элементов
         onTap: _onItemTapped,
       ),

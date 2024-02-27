@@ -46,20 +46,20 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_sharp),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_sharp),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.support_agent),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Color(0xFF93D56F),
         unselectedItemColor: Colors.grey, // Цвет неактивных элементов
         onTap: _onItemTapped,
       ),

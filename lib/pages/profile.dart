@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message_sharp),
+            icon: Icon(Icons.message),
             label: 'Поддержка',
           ),
         ],

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart'; // Добавьте этот импорт
-import 'package:cloud_firestore/cloud_firestore.dart'; // Добавьте этот импорт
 import 'package:mama_kris/pages/favorite.dart';
-import 'package:mama_kris/pages/start.dart'; // Импортируем start.dart
 import 'package:mama_kris/pages/login.dart'; // Импортируем login.dart
 import 'package:mama_kris/pages/welcome.dart';
 import 'package:mama_kris/pages/registration.dart';
@@ -20,6 +18,7 @@ import 'package:mama_kris/pages/employer_list.dart';
 import 'package:mama_kris/pages/profile_empl.dart';
 import 'package:mama_kris/pages/favorite.dart';
 import 'package:mama_kris/pages/support_empl.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
