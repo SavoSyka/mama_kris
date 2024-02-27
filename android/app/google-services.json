@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "86099763542",
+    "project_id": "mamakris-0",
+    "storage_bucket": "mamakris-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86099763542:android:dacb0c535a62fc1853f6f7",
+        "android_client_info": {
+          "package_name": "com.example.mamakris"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6JKIXtGJPlYYv30hfQXlcyukdzwem_tA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86099763542:android:7c7fd22ae44e007753f6f7",
+        "android_client_info": {
+          "package_name": "com.mama.mama_kris"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6JKIXtGJPlYYv30hfQXlcyukdzwem_tA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
