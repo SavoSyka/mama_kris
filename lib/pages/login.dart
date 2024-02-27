@@ -1,6 +1,5 @@
 // Файл login.dart
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Добавьте этот импорт
 
 import 'package:firebase_auth/firebase_auth.dart'; // Добавьте этот импорт
@@ -88,9 +87,7 @@ class LoginPage extends StatelessWidget {
                   } else {
                     print('Аутентификация не удалась.');
                   }
-                } on FirebaseAuthException catch (e) {
-                  // Обработка ошибок аутентификации...
-                } catch (e) {
+                }  catch (e) {
                   // Обработка других ошибок...
                 }
               },

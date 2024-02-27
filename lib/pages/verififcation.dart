@@ -1,7 +1,6 @@
 // Файл verification.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mama_kris/pages/home.dart';
 import 'dart:async';
 import 'package:mama_kris/wave.dart';
 

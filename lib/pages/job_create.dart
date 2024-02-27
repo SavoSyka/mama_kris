@@ -53,7 +53,7 @@ class _JobPageState extends State<JobPage> {
       if (_jobType != 'once' && _jobType != 'const') {
         // Если тип работы не выбран, показываем сообщение об ошибке
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Пожалуйста, выберите тип работы')),
+          const SnackBar(content: Text('Пожалуйста, выберите тип работы')),
         );
         return; // Прерываем выполнение метода
       }
@@ -73,16 +73,16 @@ class _JobPageState extends State<JobPage> {
         if (widget.jobData != null) {
           // Редактирование существующей вакансии
           await collection.doc(widget.jobData!['id']).update(jobData);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Вакансия обновлена')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Вакансия обновлена')));
         } else {
           // Добавление новой вакансии
           await collection.add(jobData);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Вакансия добавлена')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Вакансия добавлена')));
         }
 
         Navigator.pushReplacementNamed(context, '/empl_list');
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Произошла ошибка при сохранении')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Произошла ошибка при сохранении')));
         print(e);
       }
     }
@@ -116,10 +116,10 @@ class _JobPageState extends State<JobPage> {
                   value: 'once',
                   groupValue: _jobType,
                   onChanged: (value) => setState(() => _jobType = value!),
-                  activeColor: Color(0xFF93D56F), // Цвет выбранного состояния
+                  activeColor: const Color(0xFF93D56F), // Цвет выбранного состояния
 
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 32), // Уменьшенные вертикальные отступы
+                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32), // Уменьшенные вертикальные отступы
               ),
               ListTile(
                 title: const Text('Постоянная занятость',
@@ -129,10 +129,10 @@ class _JobPageState extends State<JobPage> {
                   value: 'const',
                   groupValue: _jobType,
                   onChanged: (value) => setState(() => _jobType = value!),
-                  activeColor: Color(0xFF93D56F), // Цвет выбранного состояния
+                  activeColor: const Color(0xFF93D56F), // Цвет выбранного состояния
 
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 32), // Уменьшенные вертикальные отступы
+                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32), // Уменьшенные вертикальные отступы
               ),
 
               _buildTextField(_titleController, 'Название задания', false),
@@ -156,8 +156,8 @@ class _JobPageState extends State<JobPage> {
               child: ElevatedButton(
                 onPressed: _saveJob,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF93D56F),
-                  minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 50
+                  backgroundColor: const Color(0xFF93D56F),
+                  minimumSize: const Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 50
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12), // Добавляем скругление углов кнопки
                   ),
@@ -184,24 +184,24 @@ class _JobPageState extends State<JobPage> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
           labelText: label,
           floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
-          labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
+          labelStyle: const TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
+            borderSide: const BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
           ),
           // Также применяем стиль рамки когда поле в фокусе
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
+            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
           ),
           // Стиль рамки при вводе неверных данных
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
+            borderSide: const BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
           ),
         ),
         keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
@@ -215,21 +215,21 @@ class _JobPageState extends State<JobPage> {
         value: currentValue,
         onChanged: onChanged,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
           labelText: label,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelStyle: TextStyle(color: Color(0xFF343434)),
+          labelStyle: const TextStyle(color: Color(0xFF343434)),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0),
+            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0),
+            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0),
+            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
           ),
         ),
         items: options.map<DropdownMenuItem<String>>((String value) {

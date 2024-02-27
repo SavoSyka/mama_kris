@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mama_kris/pages/home.dart';
-//import 'package:mama_kris/pages/verification.dart';
 import 'package:mama_kris/wave.dart'; // Убедитесь, что wave.dart содержит SineWaveWidget
 
 class RegistrationPage extends StatelessWidget {

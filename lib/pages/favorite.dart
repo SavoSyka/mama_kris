@@ -12,13 +12,6 @@ class _FavoritePageState extends State<FavoritePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int _selectedIndex = 1; // Индекс для отслеживания текущего выбранного элемента
 
-  // Список виджетов для каждой страницы
-  final List<Widget> _widgetOptions = [
-    const Text('Главная'), // Замените на ваш виджет для /tinder
-    const Text('Проекты'), // Замените на ваш виджет для /projects
-    const Text('Профиль'), // Замените на ваш виджет для /profile
-    const Text('Поддержка'), // Замените на ваш виджет для /support
-  ];
 
   void _onItemTapped(int index) {
     setState(() {

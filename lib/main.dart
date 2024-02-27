@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart'; // Добавьте этот импорт
 import 'package:mama_kris/pages/favorite.dart';
 import 'package:mama_kris/pages/login.dart'; // Импортируем login.dart
+import 'package:mama_kris/pages/start.dart';
 import 'package:mama_kris/pages/welcome.dart';
 import 'package:mama_kris/pages/registration.dart';
 import 'package:mama_kris/pages/home.dart';
@@ -16,7 +17,6 @@ import 'package:mama_kris/pages/support.dart';
 import 'package:mama_kris/pages/profile.dart';
 import 'package:mama_kris/pages/employer_list.dart';
 import 'package:mama_kris/pages/profile_empl.dart';
-import 'package:mama_kris/pages/favorite.dart';
 import 'package:mama_kris/pages/support_empl.dart';
 
 void main() async {
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         // Возвращаем MaterialPageRoute в зависимости от имени маршрута
         switch (name) {
           case '/':
-            return MaterialPageRoute(builder: (context) => TinderPage());
+            return MaterialPageRoute(builder: (context) => StartPage());
           case '/login':
             return MaterialPageRoute(builder: (context) => LoginPage());
           case '/welcome':

@@ -14,7 +14,6 @@ class _JobSearchPageState extends State<JobSearchPage> {
   bool _openToPermanent = false;
   bool _openToTemporary = false;
   String _sphere = 'Маркетинг';
-  String _contactLink = '';
 
   @override
   Widget build(BuildContext context) {

@@ -13,11 +13,7 @@ class _JobsListPageState extends State<JobsListPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   int _selectedIndex = 0; // Индекс для отслеживания текущего выбранного элемента
 
-  final List<Widget> _widgetOptions = [
-    const Text('Главная'), // Замените на ваш виджет для /tinder
-    const Text('Профиль'), // Замените на ваш виджет для /profile
-    const Text('Поддержка'), // Замените на ваш виджет для /support
-  ];
+
 
   void _onItemTapped(int index) {
     setState(() {
