@@ -13,7 +13,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
   final _formKey = GlobalKey<FormState>();
   bool _openToPermanent = false;
   bool _openToTemporary = false;
-  String _sphere = 'Маркетинг';
+  String _sphere = 'Пока не знаю, первый раз смотрю в мир онлайн-заработка';
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,27 @@ class _JobSearchPageState extends State<JobSearchPage> {
               ),
               _buildDropdownField(
                   _sphere,
-                  ['Маркетинг', 'Контент-менеджмент', 'Копирайтинг'],
+                  ["Пока не знаю, первый раз смотрю в мир онлайн-заработка",
+                    "Дизайн",
+                    "Разработка и IT",
+                    "Тексты и переводы",
+                    "Обработка фото и монтаж видео",
+                    "Копирайтинг, упаковка и смыслы",
+                    "Seo и трафик",
+                    "Социальные сети, блоги, реклама",
+                    "Продажи",
+                    "Маркетинг",
+                    "Менеджмент",
+                    "Методология",
+                    "Модератор, тестировщик",
+                    "Психология, коучинг, кураторство",
+                    "Административные задачи",
+                    "Творческие и креативные задачи",
+                    "Репетиторство",
+                    "Консалтинг",
+                    "Общие задачи",
+                    "Очумелые ручки (торты, шитье на заказ, вязание, любой hand made)"
+                  ],
                   'Выберите сферу',
                       (newValue) {
                     setState(() {
@@ -120,24 +140,55 @@ class _JobSearchPageState extends State<JobSearchPage> {
   }
 
   Widget _buildDropdownField(String currentValue, List<String> options, String label, Function(String?) onChanged) {
+    double horizontalPadding = 32.0;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
-      child: DropdownButtonFormField<String>(
-        value: currentValue,
-        onChanged: onChanged,
-        items: options.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        decoration: InputDecoration(
-          labelText: label,
-          contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          labelStyle: const TextStyle(color: Color(0xFF343434)),
-        ),
-      ),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8.0),
+        child: DropdownButtonFormField<String>(
+          isExpanded: true,
+          value: _sphere,
+          onChanged: (newValue) {
+            setState(() {
+              _sphere = newValue!;
+            });
+          },
+          selectedItemBuilder: (BuildContext context) {
+            return options.map<Widget>((String value) {
+              return Text(
+                value,
+                overflow: TextOverflow.ellipsis, // Только для выбранного элемента
+              );
+            }).toList();
+          },
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
+            labelText: label,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            labelStyle: const TextStyle(color: Color(0xFF343434)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0),
+            ),
+          ),
+          items: options.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                value,
+                softWrap: true, // Перенос строки для элементов в раскрытом списке
+              ),
+            );
+          }).toList(),
+        )
+
     );
   }
 }

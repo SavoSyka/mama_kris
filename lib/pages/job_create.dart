@@ -11,6 +11,56 @@ class JobPage extends StatefulWidget {
   @override
   _JobPageState createState() => _JobPageState();
 }
+class EllipsisText extends StatelessWidget {
+  final String text;
+  final double width;
+  final TextStyle? style;
+
+  const EllipsisText({
+    Key? key,
+    required this.text,
+    required this.width,
+    this.style,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextPainter painter = TextPainter(
+      textDirection: TextDirection.ltr,
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+    );
+
+    painter.layout(maxWidth: width);
+
+    if (painter.didExceedMaxLines) {
+      // Текст слишком длинный и не умещается в заданную ширину
+      String ellipsizedText = _ellipsizeText(text, painter, width);
+      return Text(ellipsizedText, style: style);
+    } else {
+      // Текст умещается в заданную ширину
+      return Text(text, style: style);
+    }
+  }
+
+  String _ellipsizeText(String originalText, TextPainter painter, double maxWidth) {
+    int left = 0;
+    int right = originalText.length;
+    while (left < right) {
+      int mid = (left + right) ~/ 2;
+      painter.text = TextSpan(text: originalText.substring(0, mid) + '...', style: style);
+      painter.layout();
+      if (painter.width > maxWidth) {
+        right = mid;
+      } else {
+        left = mid + 1;
+      }
+    }
+
+    return originalText.substring(0, left - 1) + '...';
+  }
+}
+
 
 class _JobPageState extends State<JobPage> {
   final _formKey = GlobalKey<FormState>();
@@ -22,7 +72,7 @@ class _JobPageState extends State<JobPage> {
   final TextEditingController _contactLinkController = TextEditingController();
 
   String _jobType = 'разовое задание';
-  String _sphere = 'Маркетинг';
+  String _sphere = 'Дизайн';
   @override
   void initState() {
     super.initState();
@@ -139,7 +189,26 @@ class _JobPageState extends State<JobPage> {
               _buildTextField(_descriptionController, 'Описание задания', false),
               _buildDropdownField(
                   _sphere,
-                  ['Маркетинг', 'Контент-менеджмент', 'Копирайтинг'],
+                  [ "Дизайн",
+                    "Разработка и IT",
+                    "Тексты и переводы",
+                    "Обработка фото и монтаж видео",
+                    "Копирайтинг, упаковка и смыслы",
+                    "Seo и трафик",
+                    "Социальные сети, блоги, реклама",
+                    "Продажи",
+                    "Маркетинг",
+                    "Менеджмент",
+                    "Методология",
+                    "Модератор, тестировщик",
+                    "Психология, коучинг, кураторство",
+                    "Административные задачи",
+                    "Творческие и креативные задачи",
+                    "Репетиторство",
+                    "Консалтинг",
+                    "Общие задачи",
+                    "Очумелые ручки (торты, шитье на заказ, вязание, любой hand made)"
+                  ],
                   'Выберите сферу',
                       (newValue) {
                     setState(() {
@@ -208,12 +277,39 @@ class _JobPageState extends State<JobPage> {
       ),
     );
   }
+  bool isTextOverflowing(String text, TextStyle style, double maxWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout(minWidth: 0, maxWidth: maxWidth);
+
+    return textPainter.didExceedMaxLines;
+  }
+
+
+
   Widget _buildDropdownField(String currentValue, List<String> options, String label, Function(String?) onChanged) {
+    double horizontalPadding = 32.0;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8.0),
       child: DropdownButtonFormField<String>(
-        value: currentValue,
-        onChanged: onChanged,
+        isExpanded: true,
+        value: _sphere,
+        onChanged: (newValue) {
+          setState(() {
+            _sphere = newValue!;
+          });
+        },
+        selectedItemBuilder: (BuildContext context) {
+          return options.map<Widget>((String value) {
+            return Text(
+              value,
+              overflow: TextOverflow.ellipsis, // Только для выбранного элемента
+            );
+          }).toList();
+        },
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
           labelText: label,
@@ -235,11 +331,17 @@ class _JobPageState extends State<JobPage> {
         items: options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(
+              value,
+              softWrap: true, // Перенос строки для элементов в раскрытом списке
+            ),
           );
         }).toList(),
-      ),
+      )
+
     );
   }
+
+
 
 }
