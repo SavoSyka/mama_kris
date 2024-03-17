@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/wave.dart'; // Убедитесь, что wave.dart содержит SineWaveWidget
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RegistrationPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -21,7 +22,7 @@ class RegistrationPage extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Padding(
                     padding: EdgeInsets.only(top: 38),
-                    child: Image.asset('images/logo_named.png'),
+                    child: SvgPicture.asset('images/logo_named.svg'),
                   ),
                 ),
               ],
@@ -31,7 +32,7 @@ class RegistrationPage extends StatelessWidget {
                   left: 32.0, top: 70.0, right: 32.0, bottom: 22.0),
               child: Text(
                 'Пожалуйста, зарегистрируйтесь',
-                style: TextStyle(fontSize: 32,
+                style: TextStyle(fontSize: 30,
                     color: Color(0xFF343434),
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w700),
@@ -68,7 +69,7 @@ class RegistrationPage extends StatelessWidget {
                       await userCredential.user!.sendEmailVerification();
 
                       // Перенаправление пользователя на страницу верификации
-                      Navigator.pushReplacementNamed(context, '/verification');
+                      Navigator.pushReplacementNamed(context, '/ch_without_va');
                     } else {
                       // Регистрация не удалась
                       print('Регистрация не удалась.');

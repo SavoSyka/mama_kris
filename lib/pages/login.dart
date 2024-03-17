@@ -1,7 +1,7 @@
 // Файл login.dart
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Добавьте этот импорт
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Добавьте этот импорт
 import 'package:mama_kris/wave.dart'; // Убедитесь, что wave.dart содержит SineWaveWidget
 
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
           alignment: Alignment.center,
           child: Padding(
             padding: EdgeInsets.only(top: 38),
-            child: Image.asset('images/logo_named.png'), // Убедитесь, что путь к изображению правильный
+            child: SvgPicture.asset('images/logo_named.svg'), // Убедитесь, что путь к изображению правильный
           ),
         ),
         ],

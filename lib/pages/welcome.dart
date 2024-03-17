@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/wave.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class WelcomePage extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.only(top: 38),
-                  child: Image.asset('images/logo_named.png'),
+                  child: SvgPicture.asset('images/logo_named.svg'),
                 ),
               ),
             ],
