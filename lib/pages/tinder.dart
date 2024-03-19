@@ -3,11 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 import 'package:mama_kris/wave.dart';
+import 'package:mama_kris/icon.dart';
 
 class TinderPage extends StatefulWidget {
   @override
   TinderPageState createState() => TinderPageState();
 }
+
 
 class TinderPageState extends State<TinderPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -86,8 +88,11 @@ class TinderPageState extends State<TinderPage> {
   }
 
   Future<void> _fetchRandomJob() async {
-    final querySnapshot = await _firestore.collection('jobs')
-    // .where('jobType', isEqualTo: 'desiredJobType') // Условие для jobType
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('jobs')
+        .where('status', isEqualTo: 'approved') // Фильтр по статусу 'approved'
+
+  // .where('jobType', isEqualTo: 'desiredJobType') // Условие для jobType
     // .where('sphere', isEqualTo: 'desiredSphere') // Условие для sphere
         .get();
 
@@ -120,11 +125,11 @@ class TinderPageState extends State<TinderPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Контакты работодателя'),
+          title: const Text('Контакты работодателя'),
           content: Text(employerContacts),
           actions: <Widget>[
             TextButton(
-              child: Text('Закрыть'),
+              child: const Text('Закрыть'),
               onPressed: () {
                 Navigator.of(context).pop(); // Закрываем диалог
               },
@@ -146,9 +151,10 @@ class TinderPageState extends State<TinderPage> {
 
 @override
 Widget build(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
   return Scaffold(
     body: _isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : _randomJob != null
         ? SingleChildScrollView(
       child: Stack(
@@ -156,55 +162,55 @@ Widget build(BuildContext context) {
           SineWaveWidget(verticalOffset: 205),
 
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 left: 32.0, top: 70.0, right: 32.0, bottom: 22.0),
 
             child: Text(
               '${_randomJob!['title']}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
                 left: 32.0, top: 270.0, right: 32.0, bottom: 22.0),
             child: Text(
               ' ${_randomJob!['description']}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
           ),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 32.0, top: 570.0, right: 32.0, bottom: 22.0),
+          Padding(
+        padding:  EdgeInsets.only(
+            left: 32.0, top: screenHeight-150 , right: 32.0, bottom: 22.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
               onPressed: () => _likeJob(_randomJob!.id),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF93D56F), // Цвет фона кнопки
+                backgroundColor: const Color(0xFF93D56F), // Цвет фона кнопки
                 foregroundColor: Colors.white, // Цвет иконки
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Закругленные углы
                 ),
-                minimumSize: Size(144, 60), // Минимальный размер кнопки
+                minimumSize: const Size(144, 60), // Минимальный размер кнопки
 
               ),
-              child: Icon(Icons.favorite, color: Colors.white),
+              child: const Icon(Icons.favorite, color: Colors.white),
             ),
             ElevatedButton(
               onPressed: () => _dislikeJob(_randomJob!.id),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFD1CEB9), // Цвет фона кнопки
+                backgroundColor: const Color(0xFFD1CEB9), // Цвет фона кнопки
                 foregroundColor: Colors.white, // Цвет иконки
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Закругленные углы
                 ),
-                minimumSize: Size(144, 60), // Минимальный размер кнопки
+                minimumSize: const Size(144, 60), // Минимальный размер кнопки
 
               ),
-              child: Icon(Icons.arrow_forward, color: Color(0xFF343434)),
+              child: const Icon(Icons.arrow_forward, color: Color(0xFF343434)),
             ),
           ],
         )
@@ -213,33 +219,37 @@ Widget build(BuildContext context) {
         ],
       ),
     )
-        : Center(
+        : const Center(
       child: Text('Больше вакансий нет', style: TextStyle(fontSize: 24)),
     ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_sharp),
-            label: 'Главная',
+    bottomNavigationBar: BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: DoubleIcon(
+            bottomIconAsset: 'images/icons/main-bg.svg',
+            topIconAsset: 'images/icons/main.svg',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag_sharp),
-            label: 'Проекты',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Профиль',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Поддержка',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF93D56F),
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов+
-        onTap: _onItemTapped,
-      ),
+          label: 'Главная',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgIcon('images/icons/projects.svg'),
+          label: 'Проекты',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgIcon('images/icons/profile.svg',),
+          label: 'Профиль',
+        ),
+        BottomNavigationBarItem(
+          icon: SvgIcon('images/icons/support.svg'),
+          label: 'Поддержка',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      selectedItemColor: Colors.black, // Цвет выбранного элемента
+      unselectedItemColor: Colors.black, // Цвет не выбранного элемента
+    ),
     );
   }
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mama_kris/icon.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
   _FavoritePageState createState() => _FavoritePageState();
 }
+
+
+
 
 class _FavoritePageState extends State<FavoritePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -159,28 +163,32 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
 
 
-  bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_sharp),
+            icon: SvgIcon('images/icons/main.svg'),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flag_sharp),
-            label: 'Проекты',
+            icon: DoubleIcon(
+              bottomIconAsset: 'images/icons/projects-bg.svg',
+              topIconAsset: 'images/icons/projects.svg',
+            ),            label: 'Проекты',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
+            icon: SvgIcon('images/icons/profile.svg'),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: SvgIcon('images/icons/support.svg',
+            ),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF93D56F),
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов+
+        selectedItemColor: Colors.black, // Цвет выбранного элемента
+        unselectedItemColor: Colors.black, // Цвет не выбранного элемента
         onTap: _onItemTapped,
       ),
     );

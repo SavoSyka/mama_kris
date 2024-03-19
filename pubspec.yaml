@@ -58,11 +58,18 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - images/logo.png
-    - images/logo_named.png
+    - images/
     - images/logo_named.svg
     - images/logo.svg
-
+    - images/icons/
+    - images/icons/main.svg
+    - images/icons/projects.svg
+    - images/icons/profile.svg
+    - images/icons/support.svg
+    - images/icons/main-bg.svg
+    - images/icons/projects-bg.svg
+    - images/icons/profile-bg.svg
+    - images/icons/support-bg.svg
   fonts:
     - family: Inter
       fonts:
