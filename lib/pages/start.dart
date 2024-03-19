@@ -63,28 +63,43 @@ class StartPage extends StatelessWidget {
                       Expanded( // Растягиваем кнопку на всю доступную ширину в Row
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 6.0), // Отступы по бокам
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF93D56F),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF93D56F), // верхний цвет
+                                  Color(0xFF659A57)  // нижний цвет
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Создать аккаунт',
-                              style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent, // Прозрачный цвет
+                                shadowColor: Colors.transparent, // Убираем тень
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/welcome');
+                              },
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Создать аккаунт',
+                                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                                ),
+                              ),
                             ),
-                          ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/welcome');
-                            },
                           ),
                         ),
                       ),
                     ],
+
                   ),
                   Row(
                     children: <Widget>[

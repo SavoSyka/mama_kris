@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
           alignment: Alignment.center,
           child: Padding(
             padding: EdgeInsets.only(top: 38),
-            child: SvgPicture.asset('images/logo_named.svg'), // Убедитесь, что путь к изображению правильный
+            child: SvgPicture .asset('images/logo_named.svg'), // Убедитесь, что путь к изображению правильный
           ),
         ),
         ],
@@ -41,11 +41,20 @@ class LoginPage extends StatelessWidget {
       _buildTextField(_passwordController, 'Пароль', true),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20.0),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(12), // Скругление углов
+          ),
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF93D56F),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+            shadowColor: Colors.transparent, // Убираем тень
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12), // Скругл
             ),
             padding: EdgeInsets.symmetric(vertical: 15),
             minimumSize: Size(double.infinity, 60),
@@ -92,6 +101,7 @@ class LoginPage extends StatelessWidget {
                 }
               },
             ),
+        ),
       ),
           ],
         ),

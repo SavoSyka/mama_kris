@@ -69,26 +69,36 @@ class WelcomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
-                left: 32.0, top: 21.0, right: 32.0, bottom: 6.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF93D56F),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Скругление углов
+            padding: EdgeInsets.only(left: 32.0, top: 21.0, right: 32.0, bottom: 6.0),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                // Задание минимальной ширины кнопки, double.infinity заставляет кнопку растянуться
-                minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 50
+                borderRadius: BorderRadius.circular(12), // Скругление углов
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              child: Text(
-              'Продолжить',
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+                  shadowColor: Colors.transparent, // Убираем тень
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // Скругление углов
+                  ),
+                  minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 60
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/registration');
+                },
+                child: const Text(
+                  'Продолжить',
+                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                ),
               ),
             ),
-        ),
+          ),
+
 
           Padding(
             padding: const EdgeInsets.only(
