@@ -11,56 +11,6 @@ class JobPage extends StatefulWidget {
   @override
   _JobPageState createState() => _JobPageState();
 }
-class EllipsisText extends StatelessWidget {
-  final String text;
-  final double width;
-  final TextStyle? style;
-
-  const EllipsisText({
-    Key? key,
-    required this.text,
-    required this.width,
-    this.style,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TextPainter painter = TextPainter(
-      textDirection: TextDirection.ltr,
-      text: TextSpan(text: text, style: style),
-      maxLines: 1,
-    );
-
-    painter.layout(maxWidth: width);
-
-    if (painter.didExceedMaxLines) {
-      // Текст слишком длинный и не умещается в заданную ширину
-      String ellipsizedText = _ellipsizeText(text, painter, width);
-      return Text(ellipsizedText, style: style);
-    } else {
-      // Текст умещается в заданную ширину
-      return Text(text, style: style);
-    }
-  }
-
-  String _ellipsizeText(String originalText, TextPainter painter, double maxWidth) {
-    int left = 0;
-    int right = originalText.length;
-    while (left < right) {
-      int mid = (left + right) ~/ 2;
-      painter.text = TextSpan(text: originalText.substring(0, mid) + '...', style: style);
-      painter.layout();
-      if (painter.width > maxWidth) {
-        right = mid;
-      } else {
-        left = mid + 1;
-      }
-    }
-
-    return originalText.substring(0, left - 1) + '...';
-  }
-}
-
 
 class _JobPageState extends State<JobPage> {
   final _formKey = GlobalKey<FormState>();
@@ -117,6 +67,9 @@ class _JobPageState extends State<JobPage> {
         'description': _descriptionController.text,
         'contactLink': _contactLinkController.text,
         'employerId': FirebaseAuth.instance.currentUser?.uid,
+        'status': 'checking',
+        'created_at': FieldValue.serverTimestamp(), // Добавляет текущую метку времени сервера
+
       };
 
       try {
