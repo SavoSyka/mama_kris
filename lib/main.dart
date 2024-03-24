@@ -32,6 +32,33 @@ void main() async {
   runApp(MyApp());
 }
 
+class LoadingScreen extends StatefulWidget {
+  @override
+  _LoadingScreenState createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends State<LoadingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToNextScreen();
+  }
+
+  void _navigateToNextScreen() async {
+    // Асинхронно получаем начальный маршрут
+    String initialRoute = await getInitialRoute();
+    // Используем Navigator.pushReplacementNamed для перехода без возможности возвращения назад
+    Navigator.of(context).pushReplacementNamed(initialRoute);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()), // Индикатор загрузки
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,12 +78,15 @@ class MyApp extends StatelessWidget {
       ],
       // Удаляем initialRoute и routes
       // Добавляем onGenerateRoute
+      //initialRoute: initialRoute, // Используем полученный начальный маршрут
       onGenerateRoute: (settings) {
         // Получаем имя маршрута
         final name = settings.name;
         // Возвращаем MaterialPageRoute в зависимости от имени маршрута
         switch (name) {
-          case '/':
+           case '/':
+             return MaterialPageRoute(builder: (context) => LoadingScreen());
+          case '/start':
             return MaterialPageRoute(builder: (context) => StartPage());
           case '/login':
             return MaterialPageRoute(builder: (context) => LoginPage());
@@ -68,8 +98,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => JobPage());
           case '/search':
             return MaterialPageRoute(builder: (context) => JobSearchPage());
-          case '/home':
-            return MaterialPageRoute(builder: (context) => HomePage());
+          // case '/home':
+          //   return MaterialPageRoute(builder: (context) => StartPage());//#TODO Attention
           case '/tinder':
             return MaterialPageRoute(builder: (context) => TinderPage());
           case '/support':
@@ -84,11 +114,13 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => JobsListPage());
           case '/projects':
             return MaterialPageRoute(builder: (context) => FavoritePage());
+          case '/ch_without_va':
+            return MaterialPageRoute(builder: (context) => ChoicePage());
           case '/choice':
           // Проверяем, подтверждена ли почта пользователя
             final emailVerified =
                 FirebaseAuth.instance.currentUser?.emailVerified ?? false;
-            // Если да, то показываем HomePage
+            // Если да, то показываем ChoicePage
             if (emailVerified) {
               return MaterialPageRoute(builder: (context) => ChoicePage());
             } else {

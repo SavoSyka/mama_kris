@@ -19,7 +19,7 @@ class _VerificationPageState extends State<VerificationPage> {
     user = FirebaseAuth.instance.currentUser!;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       checkEmailVerified();
     });
   }
@@ -41,7 +41,7 @@ class _VerificationPageState extends State<VerificationPage> {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 38),
+                  padding: const EdgeInsets.only(top: 38),
                   child: Image.asset('images/logo_named.png'),
                 ),
               ),
@@ -52,41 +52,58 @@ class _VerificationPageState extends State<VerificationPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Пожалуйста, проверьте свою почту и нажмите на ссылку для подтверждения.',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF93D56F),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 20),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF93D56F), // верхний цвет
+                              Color(0xFF659A57)  // нижний цвет
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          minimumSize: Size(double.infinity, 60),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        onPressed: () async {
-                          await user.sendEmailVerification();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Письмо отправлено!'),
-                              backgroundColor: Colors.green,
+                        width: double.infinity,
+                        height: 60, // Высота кнопки
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent, // Прозрачный цвет
+                            shadowColor: Colors.transparent, // Убираем тень
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                          );
-                        },
-                        child: Text(
-                          'Отправить письмо повторно',
-                            style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            // Убираем минимальный размер, так как он задается через Container
+                          ),
+                          onPressed: () async {
+                            await user.sendEmailVerification();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Письмо отправлено!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Отправить письмо повторно',
+                            style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+
               ] else ...[
-                Padding(
-                  padding: const EdgeInsets.all(32.0),
+                const Padding(
+                  padding: EdgeInsets.all(32.0),
                   child: Text('Почта подтверждена!', textAlign: TextAlign.center, style: TextStyle(fontSize: 16)),
                 ),
               ],

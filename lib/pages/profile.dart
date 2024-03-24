@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -43,10 +43,15 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body:  Center(
         // Отображение виджета, соответствующего текущему выбранному элементу
-        child: SvgPicture.asset(
-          'images/icons/profile.svg',
-          width: 100, // Установите желаемый размер
-          height: 100,
+        child: ElevatedButton(
+          child: Text('Выйти из аккаунта'),
+          onPressed: () async {
+            // Выход из аккаунта
+            await FirebaseAuth.instance.signOut();
+
+            // Перенаправление на экран входа или на начальный экран приложения
+            Navigator.pushReplacementNamed(context, '/start');
+          },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

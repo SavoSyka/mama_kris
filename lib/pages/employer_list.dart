@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/pages/job_create.dart';
+import 'package:mama_kris/icon.dart';
 
 class JobsListPage extends StatefulWidget {
   @override
@@ -133,24 +134,28 @@ class _JobsListPageState extends State<JobsListPage> {
         tooltip: 'Добавить вакансию',
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_sharp),
+            icon: DoubleIcon(
+              bottomIconAsset: 'images/icons/main-bg.svg',
+              topIconAsset: 'images/icons/main.svg',
+            ),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
+            icon: SvgIcon('images/icons/profile.svg',),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: SvgIcon('images/icons/support.svg'),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF93D56F),
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов
         onTap: _onItemTapped,
+        selectedItemColor: Colors.black, // Цвет выбранного элемента
+        unselectedItemColor: Colors.black, // Цвет не выбранного элемента
       ),
     );
   }

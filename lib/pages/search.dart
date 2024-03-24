@@ -107,30 +107,42 @@ class _JobSearchPageState extends State<JobSearchPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 18),
                 child: SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child:Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(12), // Скругление углов
+                    ),
+                    child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         User? user = FirebaseAuth.instance.currentUser;
                         if (user != null) {
-                          await collection.add({
+                          await collection.doc(user.uid).set({
                             'openToPermanent': _openToPermanent,
                             'openToTemporary': _openToTemporary,
                             'sphere': _sphere,
                             'employerId': user.uid,
-                          });
+
+                          },  SetOptions(merge: true));
                           Navigator.pushNamed(context, '/tinder');
                         }
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF93D56F),
+                      backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+                      shadowColor: Colors.transparent, // Убираем тень
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       minimumSize: const Size(double.infinity, 60),
                     ),
                     child: const Text('Разместить', style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ),
+              ),
               ),
             ],
           ),

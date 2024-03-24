@@ -22,7 +22,13 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(article.title), backgroundColor: const Color(0xFFFCFAEE),),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight), // Стандартная высота AppBar
+        child: AppBar(
+          backgroundColor: const Color(0xFFFCFAEE),
+          title: Text(article.title),
+        ),
+      ),
       backgroundColor: const Color(0xFFFCFAEE),
 
       body: Padding(

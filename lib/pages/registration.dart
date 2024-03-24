@@ -2,14 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/wave.dart'; // Убедитесь, что wave.dart содержит SineWaveWidget
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class RegistrationPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<bool?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final OAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+        // Возвращаем true, если пользователь новый, и false, если нет
+        return userCredential.additionalUserInfo?.isNewUser;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null; // В случае ошибки возвращаем null
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+
     return Scaffold(
       body: SingleChildScrollView( // Добавляем прокрутку для поддержки маленьких экранов
         child: Column(
@@ -41,6 +73,8 @@ class RegistrationPage extends StatelessWidget {
             ),
             _buildTextField(emailController, 'Email', false),
             _buildTextField(passwordController, 'Пароль', true),
+
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20.0),
               child: Container(
@@ -79,7 +113,7 @@ class RegistrationPage extends StatelessWidget {
                       await userCredential.user!.sendEmailVerification();
 
                       // Перенаправление пользователя на страницу верификации
-                      Navigator.pushReplacementNamed(context, '/ch_without_va');
+                      Navigator.pushReplacementNamed(context, '/verification');
                     } else {
                       // Регистрация не удалась
                       print('Регистрация не удалась.');
@@ -88,7 +122,7 @@ class RegistrationPage extends StatelessWidget {
                     if (e.code == 'email-already-in-use') {
                       // Email уже используется
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Такой пользователь уже зарегистрирован!'),
                           backgroundColor: Colors.red,
                         ),
@@ -105,6 +139,66 @@ class RegistrationPage extends StatelessWidget {
                 ),
               ),
             ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+              child: ElevatedButton.icon(
+                icon: const FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.red,
+                ),
+                label: Text(""),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  minimumSize: const Size(60, 60),
+                ),
+                onPressed: () async {
+                  final bool? isNewUser = await signInWithGoogle();
+                  if (isNewUser == true) {
+                    // Новый пользователь
+                    Navigator.pushReplacementNamed(context, '/choice');
+                  } else if (isNewUser == false) {
+                    // Пользователь уже существует, получаем дополнительные данные из Firestore
+                    final User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      final uid = user.uid;
+                      final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
+                      final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
+
+                      // Проверяем, содержит ли документ информацию о выборе пользователя
+                      if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
+                        final choice = docSnapshot.data()!['choice'];
+
+                        // Перенаправляем пользователя в зависимости от его выбора
+                        if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
+                          Navigator.pushNamed(context, '/tinder'); // Перенаправление на страницу поиска работы
+                        }
+                        else if (choice == 'ищу работу') {
+                          Navigator.pushNamed(context, '/search'); // Перенаправление на страницу с вакансиями
+                        }
+                        else if (choice == 'есть вакансии') {
+                          Navigator.pushNamed(context, '/empl_list'); // Перенаправление на страницу с вакансиями
+                        } else {
+                          Navigator.pushReplacementNamed(context, '/choice');
+                        }
+                      } else {
+                        // Документ не найден или не содержит выбора
+                        Navigator.pushReplacementNamed(context, '/choice');
+                      }
+                    } else {
+                      print('Ошибка: пользователь не определён после входа через Google.');
+                    }
+                  } else {
+                    // Ошибка аутентификации или отмена входа пользователем
+                    print("Ошибка аутентификации или вход отменён пользователем");
+                  }
+
+                },
+              )
+
             ),
           ],
         ),

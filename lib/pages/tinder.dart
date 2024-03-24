@@ -181,24 +181,36 @@ Widget build(BuildContext context) {
             ),
           ),
           Padding(
-        padding:  EdgeInsets.only(
-            left: 32.0, top: screenHeight-150 , right: 32.0, bottom: 22.0),
+        padding:  EdgeInsets.only(left: 32.0, top: screenHeight-150 , right: 32.0, bottom: 22.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+        Container(
+        decoration: BoxDecoration(
+        gradient: const LinearGradient(
+            colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+      borderRadius: BorderRadius.circular(30), // Скругление углов
+    ),
+
+            child: ElevatedButton(
               onPressed: () => _likeJob(_randomJob!.id),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF93D56F), // Цвет фона кнопки
-                foregroundColor: Colors.white, // Цвет иконки
+                backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+                shadowColor: Colors.transparent, // Убираем тень
+                //foregroundColor: Colors.white, // Цвет иконки
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Закругленные углы
                 ),
                 minimumSize: const Size(144, 60), // Минимальный размер кнопки
+                padding: EdgeInsets.symmetric(vertical: 15),
 
               ),
               child: const Icon(Icons.favorite, color: Colors.white),
             ),
+        ),
             ElevatedButton(
               onPressed: () => _dislikeJob(_randomJob!.id),
               style: ElevatedButton.styleFrom(

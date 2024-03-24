@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mama_kris/icon.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileEmplPage extends StatefulWidget {
   @override
@@ -8,12 +10,6 @@ class ProfileEmplPage extends StatefulWidget {
 class _ProfileEmplPageState extends State<ProfileEmplPage> {
   int _selectedIndex = 1; // Индекс для отслеживания текущего выбранного элемента
 
-  // Список виджетов для каждой страницы
-  final List<Widget> _widgetOptions = [
-    const Text('Главная'), // Замените на ваш виджет для /tinder
-    const Text('Профиль'), // Замените на ваш виджет для /profile
-    const Text('Поддержка'), // Замените на ваш виджет для /support
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,26 +37,39 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
       ),
       body: Center(
         // Отображение виджета, соответствующего текущему выбранному элементу
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: ElevatedButton(
+          child: Text('Выйти из аккаунта'),
+          onPressed: () async {
+            // Выход из аккаунта
+            await FirebaseAuth.instance.signOut();
+
+            // Перенаправление на экран входа или на начальный экран приложения
+            Navigator.pushReplacementNamed(context, '/start');
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_sharp),
+            icon: SvgIcon('images/icons/main.svg'),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
+            icon: DoubleIcon(
+              bottomIconAsset: 'images/icons/profile-bg.svg',
+              topIconAsset: 'images/icons/profile.svg',
+            ),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: SvgIcon('images/icons/support.svg'),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF93D56F),
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов
+        selectedItemColor: Colors.black, // Цвет выбранного элемента
+        unselectedItemColor: Colors.black, // Цвет не выбранного элемента
         onTap: _onItemTapped,
       ),
     );

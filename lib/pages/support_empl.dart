@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mama_kris/icon.dart';
 
 class SupportEmplPage extends StatefulWidget {
   @override
@@ -35,6 +36,7 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Support'),
@@ -44,23 +46,27 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_sharp),
+            icon: SvgIcon('images/icons/main.svg'),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
+            icon: SvgIcon('images/icons/profile.svg'),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: DoubleIcon(
+              bottomIconAsset: 'images/icons/support-bg.svg',
+              topIconAsset: 'images/icons/support.svg',
+            ),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF93D56F),
-        unselectedItemColor: Colors.grey, // Цвет неактивных элементов
+        selectedItemColor: Colors.black, // Цвет выбранного элемента
+        unselectedItemColor: Colors.black, // Цвет не выбранного элемента
         onTap: _onItemTapped,
       ),
     );
