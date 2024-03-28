@@ -18,6 +18,8 @@ import 'package:mama_kris/pages/profile.dart';
 import 'package:mama_kris/pages/employer_list.dart';
 import 'package:mama_kris/pages/profile_empl.dart';
 import 'package:mama_kris/pages/support_empl.dart';
+import 'package:mama_kris/pages/conf.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +55,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('loading1');
     return Scaffold(
       body: Center(child: CircularProgressIndicator()), // Индикатор загрузки
     );
@@ -85,7 +88,7 @@ class MyApp extends StatelessWidget {
         // Возвращаем MaterialPageRoute в зависимости от имени маршрута
         switch (name) {
            case '/':
-             return MaterialPageRoute(builder: (context) => LoadingScreen());
+             return MaterialPageRoute(builder: (context) => LoadingScreen());//TODO: LoadingScreen()
           case '/start':
             return MaterialPageRoute(builder: (context) => StartPage());
           case '/login':
@@ -98,8 +101,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => JobPage());
           case '/search':
             return MaterialPageRoute(builder: (context) => JobSearchPage());
-          // case '/home':
-          //   return MaterialPageRoute(builder: (context) => StartPage());//#TODO Attention
+          case '/home':
+            return MaterialPageRoute(builder: (context) => StartPage());
           case '/tinder':
             return MaterialPageRoute(builder: (context) => TinderPage());
           case '/support':
@@ -143,3 +146,22 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class PDFScreen extends StatelessWidget {
+  final String path;
+
+  PDFScreen({required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    return PDFView(
+      filePath: path,
+      autoSpacing: false,
+      enableSwipe: true,
+      pageSnap: true,
+      swipeHorizontal: true,
+      nightMode: false,
+    );
+  }
+}
+

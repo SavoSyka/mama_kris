@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:mama_kris/pages/conf.dart';
 
 class SupportPage extends StatefulWidget {
   @override
   _SupportPageState createState() => _SupportPageState();
 
 }
+
 
 class Article {
   final String title;
@@ -244,8 +248,22 @@ class _SupportPageState extends State<SupportPage> {
               },
             ),
           ),
+          Card(
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: ListTile(
+              title: const Text('Политика конфиденциальности'),
+              //trailing: const Icon(Icons.send),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+                );
+              },
+            ),
+          ),
         ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
@@ -274,6 +292,24 @@ class _SupportPageState extends State<SupportPage> {
         unselectedItemColor: Colors.black, // Цвет не выбранного элемента
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class PDFScreen extends StatelessWidget {
+  final String path;
+
+  PDFScreen({required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    return PDFView(
+      filePath: path,
+      autoSpacing: false,
+      enableSwipe: true,
+      pageSnap: true,
+      swipeHorizontal: true,
+      nightMode: false,
     );
   }
 }
