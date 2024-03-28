@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:86099763542:android:dacb0c535a62fc1853f6f7",
+        "mobilesdk_app_id": "1:86099763542:android:8628f0f9868433d953f6f7",
         "android_client_info": {
-          "package_name": "com.example.mamakris"
+          "package_name": "com.example.lhlhlh"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "86099763542-a94uom1ijlqu6jp263dtc43dvgd540np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC6JKIXtGJPlYYv30hfQXlcyukdzwem_tA"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "86099763542-a94uom1ijlqu6jp263dtc43dvgd540np.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "86099763542-9fs901c6ene14dpk6vjnk8rk7jaoit5o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lhlhlh"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +48,20 @@
           "package_name": "com.mama.mama_kris"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "86099763542-cua81uqc805k667baotfikif52s5u5fj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mama.mama_kris",
+            "certificate_hash": "560243aa67e751fd735f5082c64caf04ab9dbef2"
+          }
+        },
+        {
+          "client_id": "86099763542-a94uom1ijlqu6jp263dtc43dvgd540np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC6JKIXtGJPlYYv30hfQXlcyukdzwem_tA"
@@ -39,7 +69,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "86099763542-a94uom1ijlqu6jp263dtc43dvgd540np.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "86099763542-9fs901c6ene14dpk6vjnk8rk7jaoit5o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lhlhlh"
+              }
+            }
+          ]
         }
       }
     }
