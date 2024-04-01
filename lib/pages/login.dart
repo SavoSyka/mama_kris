@@ -99,7 +99,7 @@ class _LoginPage extends State<LoginPage> {
           children: <Widget>[
       Expanded( // Растягиваем кнопку на всю доступную ширину в Row
       child: Padding(
-          padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 66*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+          padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 76*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
       child: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
