@@ -219,21 +219,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
         decoration: InputDecoration(
           labelText: label,
           floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
-          labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
+          labelStyle: const TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
+            borderSide: const BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
           ),
           // Также применяем стиль рамки когда поле в фокусе
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
+            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
           ),
           // Стиль рамки при вводе неверных данных
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
+            borderSide: const BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
           ),
         ),
         keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
