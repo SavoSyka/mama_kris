@@ -32,8 +32,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  firebase_core: ^2.25.4
-  cloud_firestore: ^4.15.4
+  firebase_core: ^2.27.2
+  cloud_firestore: ^4.15.10
   firebase_auth: ^4.17.4
   email_validator: ^2.1.17
   flutter_svg: ^2.0.10+1
