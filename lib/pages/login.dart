@@ -6,10 +6,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/wave.dart';
 
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget{
+  const LoginPage({super.key});
+
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance; // Создайте экземпляр FirebaseAuth
+  bool _obscureText = true;
 
 
 
@@ -74,7 +82,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
-      _buildTextField(_emailController,  false, 32*HorizontalMultiply, 8*VerticalMultiply), //email
+      _buildEmailField(_emailController,  false, 32*HorizontalMultiply, 8*VerticalMultiply), //email
               Padding(
                 padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 14*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                 child:  Align(
@@ -86,7 +94,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
 
-      _buildTextField(_passwordController,  true, 32*HorizontalMultiply, 8*VerticalMultiply),//pass
+      _buildPassField(_passwordController,  _obscureText, 32*HorizontalMultiply, 8*VerticalMultiply),//pass
       Row(
           children: <Widget>[
       Expanded( // Растягиваем кнопку на всю доступную ширину в Row
@@ -110,7 +118,7 @@ class LoginPage extends StatelessWidget {
             backgroundColor: Colors.transparent, // Прозрачный цвет
             shadowColor: Colors.transparent, // Убираем тень
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12*TextMultiply),
             ),
             padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
           ),
@@ -177,7 +185,13 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-  Widget _buildTextField(TextEditingController controller,  bool obscureText, double Hpadding, double Vpadding) {
+  Widget _buildEmailField(TextEditingController controller,  bool obscureText, double Hpadding, double Vpadding) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
     return Padding(
       padding:  EdgeInsets.only(left: Hpadding, top: Vpadding, right:Hpadding, bottom:0), // Общий отступ для группы текстов
       child: TextField(
@@ -188,21 +202,70 @@ class LoginPage extends StatelessWidget {
           labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
           ),
           // Также применяем стиль рамки когда поле в фокусе
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
           ),
           // Стиль рамки при вводе неверных данных
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color: Colors.red, width: 2.0*TextMultiply), // Можно изменить цвет/толщину для ошибок
           ),
         ),
         keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
+      ),
+    );
+  }
+
+  Widget _buildPassField(TextEditingController controller, bool obscureText, double Hpadding, double Vpadding) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
+    return Padding(
+      padding: EdgeInsets.only(left: Hpadding, top: Vpadding, right: Hpadding, bottom: 0), // Общий отступ для группы текстов
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
+          labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
+          // Устанавливаем толстую рамку
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
+          ),
+          // Также применяем стиль рамки когда поле в фокусе
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
+          ),
+          // Стиль рамки при вводе неверных данных
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12*TextMultiply),
+            borderSide: BorderSide(color: Colors.red, width: 2.0*TextMultiply), // Можно изменить цвет/толщину для ошибок
+          ),          suffixIcon: IconButton(
+            icon: Icon(
+              // Изменяем иконку в зависимости от того, скрыт текст или нет
+              obscureText ? Icons.visibility : Icons.visibility_off,
+              color: Color(0xFF343434),
+            ),
+            onPressed: () {
+              // Переключаем состояние отображения текста при нажатии
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          ),
+          // Другие свойства InputDecoration...
+        ),
+        keyboardType: TextInputType.text,
       ),
     );
   }
