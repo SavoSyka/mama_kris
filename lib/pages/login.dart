@@ -1,12 +1,10 @@
-// Файл login.dart
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Добавьте этот импорт
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Добавьте этот импорт
-import 'package:mama_kris/wave.dart'; // Убедитесь, что wave.dart содержит SineWaveWidget
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mama_kris/google_sign.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mama_kris/wave.dart';
+
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -14,8 +12,16 @@ class LoginPage extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance; // Создайте экземпляр FirebaseAuth
 
 
+
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -23,49 +29,91 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
         Stack(
         children: [
-        SineWaveWidget(verticalOffset: 300), // Убедитесь, что у вас есть SineWaveWidget
+        SineWaveWidget(verticalOffset:  340*VerticalMultiply),
         Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.only(top: 38),
-            child: SvgPicture .asset('images/logo_named.svg'), // Убедитесь, что путь к изображению правильный
+            padding: EdgeInsets.only(top: 58*VerticalMultiply),
+            child: SvgPicture .asset(
+              'images/logo_named.svg',
+              width: 220*HorizontalMultiply, // Ширина в пикселях
+              height: 224*VerticalMultiply, // Высота в пикселях
+            ),
           ),
         ),
         ],
       ),
-      const Padding(
-        padding: EdgeInsets.only(left: 32.0, top: 70.0, right: 72.0, bottom: 22.0),
-        child: Text(
-          'Пожалуйста, войдите',
-          style: TextStyle(fontSize: 32, color: Color(0xFF343434), fontFamily: 'Inter', fontWeight: FontWeight.w700),
-          textAlign: TextAlign.left,
-        ),
-      ),
-      _buildTextField(_emailController, 'Email', false),
-      _buildTextField(_passwordController, 'Пароль', true),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 20.0),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(12), // Скругление углов
+
+              Padding(
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 98*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                child:  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Пожалуйста,',
+                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434), height: 1,),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 0, right:0, bottom:0), // Общий отступ для группы текстов
+                child:  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'войдите',
+                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434), height: 1,),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 22*VerticalMultiply , right:0, bottom:0), // Общий отступ для группы текстов
+                child:  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'email',
+                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434), height: 1,),
+                  ),
+                ),
+              ),
+      _buildTextField(_emailController,  false, 32*HorizontalMultiply, 8*VerticalMultiply), //email
+              Padding(
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 14*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                child:  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'пароль',
+                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434), height: 1,),
+                  ),
+                ),
+              ),
+
+      _buildTextField(_passwordController,  true, 32*HorizontalMultiply, 8*VerticalMultiply),//pass
+      Row(
+          children: <Widget>[
+      Expanded( // Растягиваем кнопку на всю доступную ширину в Row
+      child: Padding(
+          padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 66*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFF93D56F), // верхний цвет
+              Color(0xFF659A57)  // нижний цвет
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+          borderRadius: BorderRadius.circular(12*TextMultiply),
+        ),
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(double.infinity, 60*VerticalMultiply), // Задаем ширину (бесконечность для максимальной ширины) и высоту кнопки
+            backgroundColor: Colors.transparent, // Прозрачный цвет
             shadowColor: Colors.transparent, // Убираем тень
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12), // Скругл
+              borderRadius: BorderRadius.circular(12),
             ),
-            padding: EdgeInsets.symmetric(vertical: 15),
-            minimumSize: Size(double.infinity, 60),
-          ),child: const Text(
-          'Войти',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
+            padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
+          ),
               onPressed: () async {
                 try {
                   final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -109,83 +157,33 @@ class LoginPage extends StatelessWidget {
                 }  catch (e) {
                   // Обработка других ошибок...
                 }
-              },
-            ),
+              },child:  Align(
+          alignment: Alignment.center,
+          child: Text(
+            'ВОЙТИ',
+            style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+          ),
+        ),
         ),
       ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
-                  child: ElevatedButton.icon(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.google,
-                      color: Colors.red,
-                    ),
-                    label: Text(""),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      minimumSize: const Size(60, 60),
-                    ),
-                    onPressed: () async {
-                      final bool? isNewUser = await signInWithGoogle();
-                      if (isNewUser == true) {
-                        // Новый пользователь
-                        Navigator.pushReplacementNamed(context, '/choice');
-                      } else if (isNewUser == false) {
-                        // Пользователь уже существует, получаем дополнительные данные из Firestore
-                        final User? user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          final uid = user.uid;
-                          final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
-                          final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
+      ),
+      ),
+          ],
 
-                          // Проверяем, содержит ли документ информацию о выборе пользователя
-                          if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
-                            final choice = docSnapshot.data()!['choice'];
+      ),
 
-                            // Перенаправляем пользователя в зависимости от его выбора
-                            if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
-                              Navigator.pushNamed(context, '/tinder'); // Перенаправление на страницу поиска работы
-                            }
-                            else if (choice == 'ищу работу') {
-                              Navigator.pushNamed(context, '/search'); // Перенаправление на страницу с вакансиями
-                            }
-                            else if (choice == 'есть вакансии') {
-                              Navigator.pushNamed(context, '/empl_list'); // Перенаправление на страницу с вакансиями
-                            } else {
-                              Navigator.pushReplacementNamed(context, '/choice');
-                            }
-                          } else {
-                            // Документ не найден или не содержит выбора
-                            Navigator.pushReplacementNamed(context, '/choice');
-                          }
-                        } else {
-                          print('Ошибка: пользователь не определён после входа через Google.');
-                        }
-                      } else {
-                        // Ошибка аутентификации или отмена входа пользователем
-                        print("Ошибка аутентификации или вход отменён пользователем");
-                      }
-
-                    },
-                  )
-
-              ),
           ],
         ),
       ),
     );
   }
-  Widget _buildTextField(TextEditingController controller, String label, bool obscureText) {
+  Widget _buildTextField(TextEditingController controller,  bool obscureText, double Hpadding, double Vpadding) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+      padding:  EdgeInsets.only(left: Hpadding, top: Vpadding, right:Hpadding, bottom:0), // Общий отступ для группы текстов
       child: TextField(
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-          labelText: label,
           floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
           labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
