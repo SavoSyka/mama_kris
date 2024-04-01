@@ -25,11 +25,11 @@ class StartPage extends StatelessWidget {
         children: <Widget>[
           Stack(
             children: [
-              SineWaveWidget(verticalOffset: 340*VerticalMultiply), // Ваша волна
+              SineWaveWidget(verticalOffset: 340*VerticalMultiply),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 58*VerticalMultiply), // Отступ сверху в 50 пикселей
+                  padding: EdgeInsets.only(top: 58*VerticalMultiply), // Отступ сверху
                   child: SvgPicture.asset(
                     "images/logo_named.svg",
                     width: 220*HorizontalMultiply, // Ширина в пикселях
@@ -37,7 +37,8 @@ class StartPage extends StatelessWidget {
                   )
                 ),
               ),
-            ],),
+            ],
+          ),
 
           Expanded( // Используем Expanded для центрирования кнопок в оставшемся пространстве
             child: Center(
@@ -90,11 +91,11 @@ class StartPage extends StatelessWidget {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12*TextMultiply),
                             ),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                minimumSize: Size(double.infinity, 20), // Задаем ширину (бесконечность для максимальной ширины) и высоту кнопки
+                                minimumSize: Size(double.infinity, 60*VerticalMultiply), // Задаем ширину (бесконечность для максимальной ширины) и высоту кнопки
                                 backgroundColor: Colors.transparent, // Прозрачный цвет
                                 shadowColor: Colors.transparent, // Убираем тень
                                 shape: RoundedRectangleBorder(
@@ -128,7 +129,7 @@ class StartPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFB7B39A),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12*TextMultiply),
                               ),
                               padding: EdgeInsets.only(top: 23*(height/800), bottom:23*(height/800)),
                             ),
