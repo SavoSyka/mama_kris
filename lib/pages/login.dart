@@ -58,7 +58,7 @@ class _LoginPage extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Пожалуйста,',
-                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434), height: 1,),
+                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
                   ),
                 ),
               ),
@@ -68,7 +68,7 @@ class _LoginPage extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'войдите',
-                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434), height: 1,),
+                    style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
                   ),
                 ),
               ),
@@ -78,7 +78,7 @@ class _LoginPage extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'email',
-                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434), height: 1,),
+                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
                   ),
                 ),
               ),
@@ -89,7 +89,7 @@ class _LoginPage extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'пароль',
-                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434), height: 1,),
+                    style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
                   ),
                 ),
               ),
@@ -169,7 +169,7 @@ class _LoginPage extends State<LoginPage> {
           alignment: Alignment.center,
           child: Text(
             'ВОЙТИ',
-            style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
           ),
         ),
         ),
@@ -190,8 +190,7 @@ class _LoginPage extends State<LoginPage> {
     double width = screenSize.width;
     double height = screenSize.height;
     double TextMultiply = min(width/360, height/800);
-    double VerticalMultiply = height/800;
-    double HorizontalMultiply = width/360;
+
     return Padding(
       padding:  EdgeInsets.only(left: Hpadding, top: Vpadding, right:Hpadding, bottom:0), // Общий отступ для группы текстов
       child: TextField(
@@ -199,16 +198,16 @@ class _LoginPage extends State<LoginPage> {
         obscureText: obscureText,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
-          labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
+          labelStyle: const TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12*TextMultiply),
-            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
+            borderSide: BorderSide(color:const Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
           ),
           // Также применяем стиль рамки когда поле в фокусе
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12*TextMultiply),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
+            borderSide: BorderSide(color: const Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
           ),
           // Стиль рамки при вводе неверных данных
           errorBorder: OutlineInputBorder(
@@ -226,8 +225,7 @@ class _LoginPage extends State<LoginPage> {
     double width = screenSize.width;
     double height = screenSize.height;
     double TextMultiply = min(width/360, height/800);
-    double VerticalMultiply = height/800;
-    double HorizontalMultiply = width/360;
+
     return Padding(
       padding: EdgeInsets.only(left: Hpadding, top: Vpadding, right: Hpadding, bottom: 0), // Общий отступ для группы текстов
       child: TextField(
@@ -235,16 +233,16 @@ class _LoginPage extends State<LoginPage> {
         obscureText: obscureText,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
-          labelStyle: TextStyle(color: Color(0xFF343434)), // Цвет лейбла
+          labelStyle: const TextStyle(color: Color(0xFF343434)), // Цвет лейбла
           // Устанавливаем толстую рамку
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12*TextMultiply),
-            borderSide: BorderSide(color:Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
+            borderSide: BorderSide(color:const Color(0xFF343434), width: 2.0*TextMultiply), // Увеличиваем ширину рамки
           ),
           // Также применяем стиль рамки когда поле в фокусе
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12*TextMultiply),
-            borderSide: BorderSide(color: Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
+            borderSide: BorderSide(color: const Color(0xFF343434), width: 2.0*TextMultiply), // Та же толщина рамки
           ),
           // Стиль рамки при вводе неверных данных
           errorBorder: OutlineInputBorder(
@@ -254,7 +252,7 @@ class _LoginPage extends State<LoginPage> {
             icon: Icon(
               // Изменяем иконку в зависимости от того, скрыт текст или нет
               obscureText ? Icons.visibility : Icons.visibility_off,
-              color: Color(0xFF343434),
+              color: const Color(0xFF343434),
             ),
             onPressed: () {
               // Переключаем состояние отображения текста при нажатии
