@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/wave.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -11,65 +12,77 @@ class WelcomePage extends StatelessWidget {
       'Пенсионеров',
       'Фрилансеров',
     ];
-
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Stack(
             children: [
-              SineWaveWidget(verticalOffset: 300),
+              SineWaveWidget(verticalOffset: 340*VerticalMultiply),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 38),
-                  child: SvgPicture.asset('images/logo_named.svg'),
+                  padding: EdgeInsets.only(top: 58*VerticalMultiply),
+                  child: SvgPicture.asset(
+                    "images/logo_named.svg",
+                    width: 220*HorizontalMultiply, // Ширина в пикселях
+                    height: 224*VerticalMultiply, // Высота в пикселях
+                  ),
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 32.0, top: 55.0, right: 20.0, bottom: 0.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                text: const TextSpan(
-                  style: TextStyle(fontSize: 16,
-                      fontFamily: 'Inter',
-                      color: Color(0xFF343434)),
-                  children: <TextSpan>[
-                    TextSpan(text: 'MamaKris',
-                        style: TextStyle(fontWeight: FontWeight.w900)),
-                    TextSpan(
-                        text: ' — это самая удобная платформа по поиску и размещению интересных вакансий и заданий для онлайн-заработка. Платформа создана для:'),
-                  ],
+            Padding(
+              padding:  EdgeInsets.only(
+                  left: 32.0*HorizontalMultiply, top: 90*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text:  TextSpan(
+                    style: TextStyle(fontSize: 16*TextMultiply,
+                        color: Color(0xFF343434)),
+                    children: const <TextSpan>[
+                      TextSpan(text: 'MamaKris',
+                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Inter',
+                          ),
+                      ),
+                      TextSpan(
+                          text: ' — это самая удобная платформа по поиску и размещению интересных вакансий и заданий для онлайн-заработка. Платформа создана для:',
+                        style: TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Inter1',height: 23/16),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           Expanded(
             child: GridView.count(
               padding: EdgeInsets.only(
-                  left: 28.0, top: 10.0, right: 28.0, bottom: 4.0),
+                  left: (32-8)*HorizontalMultiply, top: (20-8)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
               crossAxisCount: 2, // Задаём количество элементов в строке
-              childAspectRatio: 3 / 1, // Пропорции табличек
+              childAspectRatio: (3*HorizontalMultiply) / (1*VerticalMultiply), // Пропорции табличек
               children: categories.map((category) =>
                   Container(
                     margin: EdgeInsets.only(
-                        left: 4.0, top: 4.0, right: 4.0, bottom: 4.0),
+                        left: 8.0*HorizontalMultiply, top: 8*VerticalMultiply, right: 0.0, bottom: 0.0),
                     decoration: BoxDecoration(
                       border: Border.all(color: Color(0xFFF0ECD3), width: 2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12*TextMultiply),
                     ),
                     child: Center(
-                      child: Text(category, style: TextStyle(fontSize: 16)),
+                      child: Text(category, style: TextStyle(fontSize: 13*TextMultiply, fontWeight: FontWeight.w600,)),
                     ),
                   )).toList(),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 32.0, top: 21.0, right: 32.0, bottom: 6.0),
+            padding: EdgeInsets.only(left: 32.0*HorizontalMultiply, top: 0, right: 32.0*HorizontalMultiply, bottom: 0),
             child: Container(
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
@@ -77,23 +90,25 @@ class WelcomePage extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.circular(12), // Скругление углов
+                borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
               ),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
                   shadowColor: Colors.transparent, // Убираем тень
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Скругление углов
+                    borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
                   ),
-                  minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 60
+                  minimumSize: Size(double.infinity, 60*VerticalMultiply), // Растягиваем кнопку на всю ширину с высотой 60
+                  padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
+
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/registration');
                 },
                 child: const Text(
-                  'Продолжить',
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                  'ПРОДОЛЖИТЬ',
+                  style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -101,23 +116,23 @@ class WelcomePage extends StatelessWidget {
 
 
           Padding(
-            padding: const EdgeInsets.only(
-                left: 32.0, top: 6.0, right: 32.0, bottom: 32.0),
+            padding:  EdgeInsets.only(
+                left: 32.0*HorizontalMultiply, top: 12*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 32*VerticalMultiply),
               child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFB7B39A),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12), // Скругление углов
+                  borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
                 ),
                 // Задание минимальной ширины кнопки, double.infinity заставляет кнопку растянуться
-                minimumSize: Size(double.infinity, 60), // Растягиваем кнопку на всю ширину с высотой 50
-              ),
+                minimumSize: Size(double.infinity, 60*VerticalMultiply), // Растягиваем кнопку на всю ширину с высотой 60
+                padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),              ),
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(
-                  'Назад',
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+                  'НАЗАД',
+                  style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
               ),
             ),
           ),
