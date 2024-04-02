@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:mama_kris/pages/conf.dart';
 
 class SupportEmplPage extends StatefulWidget {
   @override
@@ -36,14 +37,40 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Support'),
+        backgroundColor: const Color(0xFFF0ECD3),
+
+        title: const Text(''),
       ),
-      body: Center(
-        // Отображение виджета, соответствующего текущему выбранному элементу
-        child: _widgetOptions.elementAt(_selectedIndex),
+      backgroundColor: const Color(0xFFF0ECD3),
+
+      body: ListView(
+        children: [
+          Card(
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: ListTile(
+              title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
+              trailing: const Icon(Icons.send),
+              onTap: () {
+                // Код для перехода в Telegram бота
+              },
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: ListTile(
+              title: const Text('Политика конфиденциальности'),
+              //trailing: const Icon(Icons.send),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

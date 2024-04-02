@@ -229,11 +229,11 @@ class _SupportPageState extends State<SupportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFCFAEE),
+        backgroundColor: const Color(0xFFF0ECD3),
 
-        title: const Text('Поддержка'),
+        title: const Text(''),
       ),
-      backgroundColor: const Color(0xFFFCFAEE),
+      backgroundColor: const Color(0xFFF0ECD3),
 
       body: ListView(
         children: [
