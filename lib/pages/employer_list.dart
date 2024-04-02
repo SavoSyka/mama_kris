@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,10 +47,17 @@ class _JobsListPageState extends State<JobsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFCFAEE),
+      backgroundColor: const Color(0xFFF0ECD3),
     appBar: AppBar(
-      backgroundColor: const Color(0xFFFCFAEE),
+      backgroundColor: const Color(0xFFF0ECD3),
 
       title: const Text('Мои объявления',
         style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
@@ -72,25 +81,26 @@ class _JobsListPageState extends State<JobsListPage> {
               final jobData = job.data() as Map<String, dynamic>;
               jobData['id'] = job.id; // Добавляем id для последующего использования
               return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:  EdgeInsets.only(left: 20*HorizontalMultiply, right: 20*HorizontalMultiply, bottom: 8*VerticalMultiply),
                   child: SizedBox(
-                    height: 120,
+
+                    height: 136*VerticalMultiply,
                     child: Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10*TextMultiply),
                       ),
-                      color: Colors.white,
+                      color: Color(0xFFFFFFFF),
                       child: ListTile(
                         title: Text(
                           jobData['title'] ?? 'Без названия',
-                          style: const TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w900, color: Color(0xFF343434)),
+                          style:  TextStyle(fontSize: 18*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
 
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: Text(
                           jobData['description'] ?? 'Без описания',
-                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                          style:  TextStyle(fontSize: 12*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
 
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
