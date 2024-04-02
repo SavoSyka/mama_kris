@@ -71,92 +71,94 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding:  EdgeInsets.only(left: 30*HorizontalMultiply, top: 370*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                  child:  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Пожалуйста,',
+                      style: TextStyle(fontSize: 28*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 400*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                  child:  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'зарегистрируйтесь',
+                      style: TextStyle(fontSize: 28*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 446*VerticalMultiply , right:0, bottom:0), // Общий отступ для группы текстов
+                  child:  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'email',
+                      style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
+                    ),
+                  ),
+                ),
+                _buildEmailField(emailController, 32*HorizontalMultiply, 466*VerticalMultiply),
+                Padding(
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 530*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                  child:  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'пароль',
+                      style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
+                    ),
+                  ),
+                ),
+                _buildPassField(passwordController, _obscureText, 32*HorizontalMultiply, 550*VerticalMultiply, true),
+                Padding(
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 619*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                  child:  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'подтвердите пароль',
+                      style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
+                    ),
+                  ),
+                ),
+                _buildPassField(confirmPasswordController, _obscureTextConf, 32*HorizontalMultiply, 639*VerticalMultiply, false),
+
+
+                Padding(
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 708*VerticalMultiply, right: 32*HorizontalMultiply, bottom:32*VerticalMultiply), // Общий отступ для группы текстов
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
+                        shadowColor: Colors.transparent, // Убираем тень
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
+                        ),
+                        minimumSize: Size(double.infinity, 60*VerticalMultiply), // Растягиваем кнопку на всю ширину с высотой 60
+                        padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
+                      ),
+                      onPressed:  _register,
+                      child:  Text(
+                        'ЗАРЕГИСТРИРОВАТЬСЯ',
+                        style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 98*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
-              child:  Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Пожалуйста,',
-                  style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
-                ),
-              ),
-            ),
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 0, right:0, bottom:0), // Общий отступ для группы текстов
-              child:  Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'зарегистрируйтесь',
-                  style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: const Color(0xFF343434), height: 1,),
-                ),
-              ),
-            ),
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 16*VerticalMultiply , right:0, bottom:0), // Общий отступ для группы текстов
-              child:  Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'email',
-                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
-                ),
-              ),
-            ),
-            _buildEmailField(emailController, 32*HorizontalMultiply, 5*VerticalMultiply),
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 8*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
-              child:  Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'пароль',
-                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
-                ),
-              ),
-            ),
-            _buildPassField(passwordController, _obscureText, 32*HorizontalMultiply, 5*VerticalMultiply, true),
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 8*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
-              child:  Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'подтвердите пароль',
-                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
-                ),
-              ),
-            ),
-            _buildPassField(confirmPasswordController, _obscureTextConf, 32*HorizontalMultiply, 5*VerticalMultiply, false),
 
 
-            Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 14*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
-                ),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
-                  shadowColor: Colors.transparent, // Убираем тень
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Скругление углов
-                  ),
-                  minimumSize: Size(double.infinity, 60*VerticalMultiply), // Растягиваем кнопку на всю ширину с высотой 60
-                  padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
-                ),
-                onPressed:  _register,
-                child:  Text(
-                  'ЗАРЕГИСТРИРОВАТЬСЯ',
-                  style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            ),
           ],
         ),
       ),
@@ -209,36 +211,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
       );
     }
-  }
-  Widget _buildTextField(TextEditingController controller, String label, bool obscureText) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: label,
-          floatingLabelBehavior: FloatingLabelBehavior.always, // Лейбл всегда над полем
-          labelStyle: const TextStyle(color: Color(0xFF343434)), // Цвет лейбла
-          // Устанавливаем толстую рамку
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color:Color(0xFF343434), width: 2.0), // Увеличиваем ширину рамки
-          ),
-          // Также применяем стиль рамки когда поле в фокусе
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Color(0xFF343434), width: 2.0), // Та же толщина рамки
-          ),
-          // Стиль рамки при вводе неверных данных
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.red, width: 2.0), // Можно изменить цвет/толщину для ошибок
-          ),
-        ),
-        keyboardType: obscureText ? TextInputType.text : TextInputType.emailAddress,
-      ),
-    );
   }
 
   Widget _buildEmailField(TextEditingController controller, double Hpadding, double Vpadding) {
