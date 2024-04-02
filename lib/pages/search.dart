@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,49 +19,76 @@ class _JobSearchPageState extends State<JobSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Создание вакансии'),
-      ),
+
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
-            children: <Widget>[
-              SineWaveWidget(verticalOffset: 120),
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0, left: 32.0, right: 52.0, bottom: 8),
-                child: Text(
-                  'Разместить заявку на поиск работы',
-                  style: TextStyle(fontSize: 36, fontFamily: 'Inter', fontWeight: FontWeight.w900, color: Color(0xFF343434)),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0, left: 32.0, right: 52.0, bottom: 2),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Формат сотрудничества',
-                    style: TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w900, color: Color(0xFF343434)),
-                  ),
-                ),
-              ),
+            mainAxisAlignment: MainAxisAlignment.start,
 
-              CheckboxListTile(
-                title: const Text('Постоянная занятость',
-                  style: TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
-                ),
-                value: _openToPermanent,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _openToPermanent = value!;
-                  });
-                },
-                controlAffinity: ListTileControlAffinity.leading,
-                activeColor: const Color(0xFF93D56F), // Цвет фона чекбокса при активации
-                checkColor: Colors.white, // Цвет галочки в чекбоксе
+            children: <Widget>[
+          Stack(
+          children: [
+            SineWaveWidget( verticalOffset: 128*VerticalMultiply),
+
+          Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+            padding: EdgeInsets.only(
+                left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+            child:IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+            Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+              padding: EdgeInsets.only(
+                  left: 32.0*HorizontalMultiply, top: (30+128)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: Text(
+                'Разместить',
+                textAlign: TextAlign.left, // Добавляем здесь
+                style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434)),
               ),
-              CheckboxListTile(
+            ),
+            Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+              padding: EdgeInsets.only(
+                  left: 32.0*HorizontalMultiply, top: (30+128+32)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: Text(
+                'заявку на поиск',
+                textAlign: TextAlign.left, // Добавляем здесь
+                style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434)),
+              ),
+            ),
+            Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+              padding: EdgeInsets.only(
+                  left: 32.0*HorizontalMultiply, top: (30+128+32*2)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: Text(
+                'работы',
+                textAlign: TextAlign.left, // Добавляем здесь
+                style: TextStyle(fontSize: 32*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434)),
+              ),
+            ),
+            Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+              padding: EdgeInsets.only(
+                  left: 32.0*HorizontalMultiply, top: (156+128)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: Text(
+                'Формат сотрудничества',
+                textAlign: TextAlign.left, // Добавляем здесь
+                style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
+              ),
+            ),
+            Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+              padding: EdgeInsets.only(
+                  left: 10.0*HorizontalMultiply, top: (170+128)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+              child: CheckboxListTile(
                 title: const Text('Разовая подработка',
                   style: TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
                 ),
@@ -73,6 +102,35 @@ class _JobSearchPageState extends State<JobSearchPage> {
                 activeColor: const Color(0xFF93D56F), // Цвет фона чекбокса при активации
                 checkColor: Colors.white, // Цвет галочки в чекбоксе
               ),
+            ),
+          Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+            padding: EdgeInsets.only(
+                left: 10.0*HorizontalMultiply, top: (198+128)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+            child: CheckboxListTile(
+                title:  Text('Постоянная занятость',
+                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
+                ),
+                value: _openToPermanent,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _openToPermanent = value!;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                activeColor: const Color(0xFF93D56F), // Цвет фона чекбокса при активации
+                checkColor: Colors.white, // Цвет галочки в чекбоксе
+              ),
+          ),
+            Padding(
+              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: (265+128)*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+              child:  Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Сфера деятельности',
+                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: const Color(0xFF343434), height: 1,),
+                ),
+              ),
+            ),
               _buildDropdownField(
                   _sphere,
                   ["Пока не знаю, первый раз смотрю в мир онлайн-заработка",
@@ -101,10 +159,11 @@ class _JobSearchPageState extends State<JobSearchPage> {
                     setState(() {
                       _sphere = newValue!;
                     });
-                  }
+                  },
+                  (286+128)*VerticalMultiply, 32*HorizontalMultiply
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 18),
+                padding:  EdgeInsets.only(right: 32.0*HorizontalMultiply, left: 32*HorizontalMultiply, top: 708*VerticalMultiply), // Задаём отступы по бокам
                 child: SizedBox(
                   width: double.infinity,
                   child:Container(
@@ -114,7 +173,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
-                      borderRadius: BorderRadius.circular(12), // Скругление углов
+                      borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
                     ),
                     child: ElevatedButton(
                     onPressed: () async {
@@ -137,26 +196,36 @@ class _JobSearchPageState extends State<JobSearchPage> {
                       backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
                       shadowColor: Colors.transparent, // Убираем тень
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      minimumSize: const Size(double.infinity, 60),
+                      minimumSize:  Size(double.infinity, 60*TextMultiply),
                     ),
-                    child: const Text('Разместить', style: TextStyle(fontSize: 18, color: Colors.white)),
-                  ),
+                      child:  Text('РАЗМЕСТИТЬ',
+                          style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+                      ),
+                    ),
                 ),
               ),
               ),
-            ],
+            ],),],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildDropdownField(String currentValue, List<String> options, String label, Function(String?) onChanged) {
-    double horizontalPadding = 32.0;
+  Widget _buildDropdownField(String currentValue, List<String> options, String label, Function(String?) onChanged, double Vpadding, double Hpadding) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
 
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8.0),
-        child: DropdownButtonFormField<String>(
+        padding: EdgeInsets.only(top: Vpadding, right: Hpadding, left: Hpadding),
+    child: SizedBox(
+    width: 295*HorizontalMultiply, // Фиксированная ширина
+    height: 60*VerticalMultiply, // Фиксированная высота
+    child: DropdownButtonFormField<String>(
           isExpanded: true,
           value: _sphere,
           onChanged: (newValue) {
@@ -174,7 +243,6 @@ class _JobSearchPageState extends State<JobSearchPage> {
           },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 32.0), // Уменьшенные отступы
-            labelText: label,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelStyle: const TextStyle(color: Color(0xFF343434)),
             border: OutlineInputBorder(
@@ -200,7 +268,7 @@ class _JobSearchPageState extends State<JobSearchPage> {
             );
           }).toList(),
         )
-
+    ),
     );
   }
 }

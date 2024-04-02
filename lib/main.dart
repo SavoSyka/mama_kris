@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
         // Возвращаем MaterialPageRoute в зависимости от имени маршрута
         switch (name) {
            case '/':
-             return MaterialPageRoute(builder: (context) => RegistrationPage());//TODO: LoadingScreen()
+             return MaterialPageRoute(builder: (context) => TinderPage());//TODO: LoadingScreen()
           case '/start':
             return MaterialPageRoute(builder: (context) => StartPage());
           case '/login':
