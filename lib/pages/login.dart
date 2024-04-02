@@ -48,11 +48,10 @@ class _LoginPage extends State<LoginPage> {
             ),
           ),
         ),
-        ],
-      ),
+
 
               Padding(
-                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 98*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 380*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                 child:  Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -62,7 +61,7 @@ class _LoginPage extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 0, right:0, bottom:0), // Общий отступ для группы текстов
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 412*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                 child:  Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -72,7 +71,7 @@ class _LoginPage extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 22*VerticalMultiply , right:0, bottom:0), // Общий отступ для группы текстов
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 466*VerticalMultiply , right:0, bottom:0), // Общий отступ для группы текстов
                 child:  Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -81,9 +80,9 @@ class _LoginPage extends State<LoginPage> {
                   ),
                 ),
               ),
-      _buildEmailField(_emailController,  false, 32*HorizontalMultiply, 8*VerticalMultiply), //email
+      _buildEmailField(_emailController,  false, 32*HorizontalMultiply, 487*VerticalMultiply), //email
               Padding(
-                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 14*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 561*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                 child:  Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -93,12 +92,12 @@ class _LoginPage extends State<LoginPage> {
                 ),
               ),
 
-      _buildPassField(_passwordController,  _obscureText, 32*HorizontalMultiply, 8*VerticalMultiply),//pass
+      _buildPassField(_passwordController,  _obscureText, 32*HorizontalMultiply, 582*VerticalMultiply),//pass
       Row(
           children: <Widget>[
       Expanded( // Растягиваем кнопку на всю доступную ширину в Row
       child: Padding(
-          padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 76*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+          padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 708*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
       child: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
@@ -181,6 +180,8 @@ class _LoginPage extends State<LoginPage> {
 
           ],
         ),
+      ],
+    ),
       ),
     );
   }
