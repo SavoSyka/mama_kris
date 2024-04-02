@@ -7,7 +7,6 @@ import 'package:mama_kris/wave.dart';
 
 
 class LoginPage extends StatefulWidget{
-  const LoginPage({super.key});
 
   @override
   _LoginPage createState() => _LoginPage();
