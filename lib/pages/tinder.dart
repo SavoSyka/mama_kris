@@ -151,37 +151,59 @@ class TinderPageState extends State<TinderPage> {
 
 @override
 Widget build(BuildContext context) {
+  Size screenSize = MediaQuery.of(context).size;
+  double width = screenSize.width;
+  double height = screenSize.height;
+  double TextMultiply = min(width/360, height/800);
+  double VerticalMultiply = height/800;
+  double HorizontalMultiply = width/360;
+
   final screenHeight = MediaQuery.of(context).size.height;
   return Scaffold(
     body: _isLoading
         ? const Center(child: CircularProgressIndicator())
         : _randomJob != null
         ? SingleChildScrollView(
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+
         children: <Widget>[
-          SineWaveWidget(verticalOffset: 205),
+          Stack(
+        children: <Widget>[
+          SineWaveWidget(verticalOffset: 206*VerticalMultiply),
 
           Padding(
-            padding: const EdgeInsets.only(
-                left: 32.0, top: 70.0, right: 32.0, bottom: 22.0),
+            padding: EdgeInsets.only(
+                left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+            child:IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+
+          Padding(
+            padding:  EdgeInsets.only(
+                left: 28*HorizontalMultiply, top: 82*VerticalMultiply, right: 28*HorizontalMultiply, bottom: 0),
 
             child: Text(
               '${_randomJob!['title']}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 24*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434)),
+              textAlign: TextAlign.left, // Добавляем здесь
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-                left: 32.0, top: 270.0, right: 32.0, bottom: 22.0),
+            padding:  EdgeInsets.only(
+                left: 32.0*HorizontalMultiply, top: 238.0*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0),
             child: Text(
               ' ${_randomJob!['description']}',
-              style: const TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+              textAlign: TextAlign.left,
             ),
           ),
           Padding(
-        padding:  EdgeInsets.only(left: 32.0, top: screenHeight-150 , right: 32.0, bottom: 22.0),
+        padding:  EdgeInsets.only(left: 32.0*HorizontalMultiply, top: 632*VerticalMultiply , right: 32.0*HorizontalMultiply, bottom: 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -192,7 +214,7 @@ Widget build(BuildContext context) {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
-      borderRadius: BorderRadius.circular(30), // Скругление углов
+      borderRadius: BorderRadius.circular(30*TextMultiply), // Скругление углов
     ),
 
             child: ElevatedButton(
@@ -202,10 +224,10 @@ Widget build(BuildContext context) {
                 shadowColor: Colors.transparent, // Убираем тень
                 //foregroundColor: Colors.white, // Цвет иконки
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Закругленные углы
+                  borderRadius: BorderRadius.circular(30*TextMultiply), // Закругленные углы
                 ),
-                minimumSize: const Size(144, 60), // Минимальный размер кнопки
-                padding: EdgeInsets.symmetric(vertical: 15),
+                minimumSize:  Size(144*TextMultiply, 60*TextMultiply), // Минимальный размер кнопки
+                padding: EdgeInsets.symmetric(vertical: 15*TextMultiply),
 
               ),
               child: const Icon(Icons.favorite, color: Colors.white),
@@ -217,9 +239,9 @@ Widget build(BuildContext context) {
                 backgroundColor: const Color(0xFFD1CEB9), // Цвет фона кнопки
                 foregroundColor: Colors.white, // Цвет иконки
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Закругленные углы
+                  borderRadius: BorderRadius.circular(30*TextMultiply), // Закругленные углы
                 ),
-                minimumSize: const Size(144, 60), // Минимальный размер кнопки
+                minimumSize:  Size(144*TextMultiply, 60*TextMultiply), // Минимальный размер кнопки
 
               ),
               child: const Icon(Icons.arrow_forward, color: Color(0xFF343434)),
@@ -229,7 +251,7 @@ Widget build(BuildContext context) {
 
       ),
         ],
-      ),
+      ),],),
     )
         : const Center(
       child: Text('Больше вакансий нет', style: TextStyle(fontSize: 24)),
