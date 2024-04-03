@@ -67,6 +67,7 @@ flutter:
     - images/
     - images/logo_named.svg
     - images/logo.svg
+    - images/grad.svg
     - images/icons/
     - images/icons/main.svg
     - images/icons/projects.svg

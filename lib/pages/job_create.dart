@@ -270,34 +270,32 @@ class _JobPageState extends State<JobPage> {
 
               _buildTextField(_contactLinkController, 'Ссылка на контакт', false, (504+128)*VerticalMultiply, 32*HorizontalMultiply, 295*HorizontalMultiply, 60*VerticalMultiply, 3),
           Padding(
-            padding:  EdgeInsets.only(right: 32.0* HorizontalMultiply, left: 32*HorizontalMultiply, top: 708*VerticalMultiply), // Задаём отступы по бокам
-            child: SizedBox(
-              width: double.infinity, // Задаём ширину во весь экран
-              child:Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
+            padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 708*VerticalMultiply, right: 32*HorizontalMultiply, bottom:32*VerticalMultiply), // Общий отступ для группы текстов
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF93D56F), Color(0xFF659A57)], // Градиент от #93D56F до #659A57
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
+                borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
+              ),
               child: ElevatedButton(
-                onPressed: _saveJob,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
                   shadowColor: Colors.transparent, // Убираем тень
-                  minimumSize:  Size(double.infinity, 60*TextMultiply), // Растягиваем кнопку на всю ширину с высотой 50
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12*TextMultiply), // Добавляем скругление углов кнопки
+                    borderRadius: BorderRadius.circular(12*TextMultiply), // Скругление углов
                   ),
+                  minimumSize: Size(double.infinity, 60*VerticalMultiply), // Растягиваем кнопку на всю ширину с высотой 60
+                  padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
                 ),
+                onPressed: _saveJob,
                 child:  Text('РАЗМЕСТИТЬ',
                     style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
                 ),
               ),
             ),
-          ),
           ),
             ],
           ),

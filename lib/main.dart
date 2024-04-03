@@ -20,7 +20,7 @@ import 'package:mama_kris/pages/profile_empl.dart';
 import 'package:mama_kris/pages/support_empl.dart';
 import 'package:mama_kris/pages/conf.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-
+import 'package:mama_kris/pages/subscription.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
         // Возвращаем MaterialPageRoute в зависимости от имени маршрута
         switch (name) {
            case '/':
-             return MaterialPageRoute(builder: (context) => TinderPage());//TODO: LoadingScreen()
+             return MaterialPageRoute(builder: (context) => SubscriptionPage());//TODO: LoadingScreen()
           case '/start':
             return MaterialPageRoute(builder: (context) => StartPage());
           case '/login':
@@ -97,6 +97,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => WelcomePage());
           case '/registration':
             return MaterialPageRoute(builder: (context) => RegistrationPage());
+          case '/ch_without_va':
+            return MaterialPageRoute(builder: (context) => ChoicePage());
           case '/job':
             return MaterialPageRoute(builder: (context) => JobPage());
           case '/search':
@@ -117,8 +119,9 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => JobsListPage());
           case '/projects':
             return MaterialPageRoute(builder: (context) => FavoritePage());
-          case '/ch_without_va':
-            return MaterialPageRoute(builder: (context) => ChoicePage());
+          case '/subscription':
+            return MaterialPageRoute(builder: (context) => SubscriptionPage());
+
           case '/choice':
           // Проверяем, подтверждена ли почта пользователя
             final emailVerified =
