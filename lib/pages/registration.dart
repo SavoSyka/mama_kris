@@ -72,7 +72,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                 ),
                 Padding(
-                  padding:  EdgeInsets.only(left: 30*HorizontalMultiply, top: 370*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
+                  padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 370*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                   child:  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
