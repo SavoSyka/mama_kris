@@ -89,8 +89,8 @@ class _JobSearchPageState extends State<JobSearchPage> {
               padding: EdgeInsets.only(
                   left: 10.0*HorizontalMultiply, top: (170+128)*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
               child: CheckboxListTile(
-                title: const Text('Разовая подработка',
-                  style: TextStyle(fontSize: 16, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
+                title:  Text('Разовая подработка',
+                  style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w600, color: Color(0xFF343434)),
                 ),
                 value: _openToTemporary,
                 onChanged: (bool? value) {
@@ -193,7 +193,8 @@ class _JobSearchPageState extends State<JobSearchPage> {
                             'openToTemporary': _openToTemporary,
                             'sphere': _sphere,
                             'employerId': user.uid,
-
+                            'viewedAdsCount': 0,
+                            'hasSubscription': false
                           },  SetOptions(merge: true));
                           Navigator.pushNamed(context, '/tinder');
                         }

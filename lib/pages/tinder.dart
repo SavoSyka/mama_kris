@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 import 'package:mama_kris/wave.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:mama_kris/pages/subscription.dart';
 
 class TinderPage extends StatefulWidget {
   @override
@@ -87,35 +88,71 @@ class TinderPageState extends State<TinderPage> {
     }
   }
 
+  Future<void> _updateViewedAdsCount() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      // Получаем текущее количество просмотров
+      final docSnapshot = await _firestore.collection('userActions').doc(user.uid).get();
+      int currentCount = docSnapshot.data()?['viewedAdsCount'] ?? 0;
+      // Увеличиваем счетчик на 1
+      await _firestore.collection('userActions').doc(user.uid).set({
+        'viewedAdsCount': currentCount + 1,
+      }, SetOptions(merge: true));
+    }
+  }
+
   Future<void> _fetchRandomJob() async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('jobs')
-        .where('status', isEqualTo: 'approved') // Фильтр по статусу 'approved'
+    User? user = _auth.currentUser;
+    if (user != null) {
+      final userDoc = await _firestore.collection('userActions')
+          .doc(user.uid)
+          .get();
+      bool hasSubscription = userDoc.data()?['hasSubscription'] ?? false;
+      int viewedAdsCount = userDoc.data()?['viewedAdsCount'] ?? 0;
 
-  // .where('jobType', isEqualTo: 'desiredJobType') // Условие для jobType
-    // .where('sphere', isEqualTo: 'desiredSphere') // Условие для sphere
-        .get();
+      if (!hasSubscription && viewedAdsCount >= 3) {
+        // Показываем диалог о необходимости подписки
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => SubscriptionPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
+        ();
+        return;
+      }
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('jobs')
+          .where(
+          'status', isEqualTo: 'approved') // Фильтр по статусу 'approved'
 
-    final allJobsIds = querySnapshot.docs.map((doc) => doc.id).toList();
-    final unviewedJobsIds = allJobsIds.where((id) => !_likedJobsIds.contains(id) && !_dislikedJobsIds.contains(id)).toList();
+      // .where('jobType', isEqualTo: 'desiredJobType') // Условие для jobType
+      // .where('sphere', isEqualTo: 'desiredSphere') // Условие для sphere
+          .get();
 
-    if (unviewedJobsIds.isNotEmpty) {
-      final randomIndex = Random().nextInt(unviewedJobsIds.length);
-      final randomJobId = unviewedJobsIds[randomIndex];
-      setState(() {
-        _randomJob = querySnapshot.docs.firstWhere((doc) => doc.id == randomJobId);
-        _isLoading = false; // Загрузка завершена
-      });
-    } else {
-      setState(() {
-        _randomJob = null;
-        _isLoading = false; // Загрузка завершена
-      });
+      final allJobsIds = querySnapshot.docs.map((doc) => doc.id).toList();
+      final unviewedJobsIds = allJobsIds.where((id) =>
+      !_likedJobsIds.contains(id) && !_dislikedJobsIds.contains(id)).toList();
+
+      if (unviewedJobsIds.isNotEmpty) {
+        final randomIndex = Random().nextInt(unviewedJobsIds.length);
+        final randomJobId = unviewedJobsIds[randomIndex];
+        setState(() {
+          _randomJob =
+              querySnapshot.docs.firstWhere((doc) => doc.id == randomJobId);
+          _isLoading = false; // Загрузка завершена
+        });
+      } else {
+        setState(() {
+          _randomJob = null;
+          _isLoading = false; // Загрузка завершена
+        });
+      }
     }
   }
 
   void _likeJob(String jobId) async {
     await _markJobAsLiked(jobId); // Помечаем вакансию как просмотренную
+    await _updateViewedAdsCount(); // Обновляем количество просмотренных объявлений
 
     // Получаем контакты работодателя из _randomJob
     String employerContacts = _randomJob!['contactLink'] ?? 'Нет контактов';
@@ -143,6 +180,7 @@ class TinderPageState extends State<TinderPage> {
 
   void _dislikeJob(String jobId) async {
     await _markJobAsDisliked(jobId);
+    await _updateViewedAdsCount(); // Обновляем количество просмотренных объявлений
     await _fetchRandomJob();
   }
 
