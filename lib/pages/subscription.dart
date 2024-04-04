@@ -82,12 +82,12 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 383*VerticalMultiply, right:32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+              padding:  EdgeInsets.only(left: 30*HorizontalMultiply, top: 383*VerticalMultiply, right:30*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
               child:  Align(
                 alignment: Alignment.center,
                 child: Text(
                 'Тебе откроется доступ к банку\nсамых лучших онлайн вакансий\nи заданий. С помощью приложения\nMamaKris ты легко найдёшь работу\nсвоей мечты в онлайне',
-                  style: TextStyle(fontSize: 16*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w600, color: const Color(0xFF343434),),
+                  style: TextStyle(fontSize: 15*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w600, color: const Color(0xFF343434),),
                   textAlign: TextAlign.center,
                 ),
             ),

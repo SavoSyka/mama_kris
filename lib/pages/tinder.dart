@@ -92,10 +92,10 @@ class TinderPageState extends State<TinderPage> {
     User? user = _auth.currentUser;
     if (user != null) {
       // Получаем текущее количество просмотров
-      final docSnapshot = await _firestore.collection('userActions').doc(user.uid).get();
+      final docSnapshot = await _firestore.collection('jobSearches').doc(user.uid).get();
       int currentCount = docSnapshot.data()?['viewedAdsCount'] ?? 0;
       // Увеличиваем счетчик на 1
-      await _firestore.collection('userActions').doc(user.uid).set({
+      await _firestore.collection('jobSearches').doc(user.uid).set({
         'viewedAdsCount': currentCount + 1,
       }, SetOptions(merge: true));
     }
@@ -104,13 +104,16 @@ class TinderPageState extends State<TinderPage> {
   Future<void> _fetchRandomJob() async {
     User? user = _auth.currentUser;
     if (user != null) {
-      final userDoc = await _firestore.collection('userActions')
+      final userDoc = await _firestore.collection('jobSearches')
           .doc(user.uid)
           .get();
       bool hasSubscription = userDoc.data()?['hasSubscription'] ?? false;
       int viewedAdsCount = userDoc.data()?['viewedAdsCount'] ?? 0;
 
       if (!hasSubscription && viewedAdsCount >= 3) {
+        print(userDoc.data()?['hasSubscription']);
+        print(userDoc.data()?['employerId']);
+
         // Показываем диалог о необходимости подписки
         Navigator.pushAndRemoveUntil(
           context,

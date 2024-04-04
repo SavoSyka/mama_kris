@@ -80,6 +80,28 @@ class _JobsListPageState extends State<JobsListPage> {
               final job = jobs[index];
               final jobData = job.data() as Map<String, dynamic>;
               jobData['id'] = job.id; // Добавляем id для последующего использования
+
+              // Определяем статус и его цвет
+              String statusText = '';
+              Color statusColor = Colors.black;
+              switch (jobData['status']) {
+                case 'approved':
+                  statusText = 'Одобрено';
+                  statusColor = Color(0xFF659A57);
+                  break;
+                case 'rejected':
+                  statusText = 'Отклонено';
+                  statusColor = Color(0xFFF55567);
+                  break;
+                case 'checking':
+                  statusText = 'На рассмотрении';
+                  statusColor = Colors.black;
+                  break;
+                default:
+                  statusText = 'Неизвестно';
+                  statusColor = Colors.grey;
+              }
+
               return Padding(
                   padding:  EdgeInsets.only(left: 20*HorizontalMultiply, right: 20*HorizontalMultiply, bottom: 8*VerticalMultiply),
                   child: SizedBox(
@@ -91,39 +113,53 @@ class _JobsListPageState extends State<JobsListPage> {
                         borderRadius: BorderRadius.circular(10*TextMultiply),
                       ),
                       color: Color(0xFFFFFFFF),
-                      child: ListTile(
-                        title: Text(
-                          jobData['title'] ?? 'Без названия',
-                          style:  TextStyle(fontSize: 18*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
-
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Text(
-                          jobData['description'] ?? 'Без описания',
-                          style:  TextStyle(fontSize: 12*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
-
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                        trailing: PopupMenuButton<String>(
-                          onSelected: (String value) {
-                            if (value == 'edit') {
-                              _editJob(jobData);
-                            } else if (value == 'delete') {
-                              _deleteJob(job.id);
-                            }
-                          },
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'edit',
-                              child: Text('Редактировать'),
+                      child: Stack(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              jobData['title'] ?? 'Без названия',
+                              style: TextStyle(fontSize: 18 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            const PopupMenuItem<String>(
-                              value: 'delete',
-                              child: Text('Удалить'),
+                            subtitle: Text(
+                              jobData['description'] ?? 'Без описания',
+                              style: TextStyle(fontSize: 12 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
-                          ],
-                        ),
+                          ),
+                          Positioned(
+                            right: 8*HorizontalMultiply,
+                            bottom: 8*VerticalMultiply,
+                            child: Text(
+                              statusText,
+                              style: TextStyle(color: statusColor, fontSize: 12 * TextMultiply, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Positioned(
+                            top: 4*VerticalMultiply,
+                            right: 4*HorizontalMultiply,
+                            child: PopupMenuButton<String>(
+                              onSelected: (String value) {
+                                if (value == 'edit') {
+                                  _editJob(jobData);
+                                } else if (value == 'delete') {
+                                  _deleteJob(job.id);
+                                }
+                              },
+                              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                                const PopupMenuItem<String>(
+                                  value: 'edit',
+                                  child: Text('Редактировать'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'delete',
+                                  child: Text('Удалить'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
