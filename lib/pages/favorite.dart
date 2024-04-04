@@ -26,16 +26,15 @@ class _FavoritePageState extends State<FavoritePage> {
 
     switch(index) {
       case 0:
-        Navigator.pushNamed(context, '/tinder');
+        Navigator.pushReplacementNamed(context, '/tinder');
         break;
       case 1:
-        Navigator.pushNamed(context, '/projects');
         break;
       case 2:
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushReplacementNamed(context, '/profile');
         break;
       case 3:
-        Navigator.pushNamed(context, '/support');
+        Navigator.pushReplacementNamed(context, '/support');
         break;
     }
   }

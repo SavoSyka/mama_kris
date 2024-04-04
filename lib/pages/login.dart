@@ -5,6 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/wave.dart';
 
+import 'package:mama_kris/pages/choice.dart';
+import 'package:mama_kris/pages/job_create.dart';
+import 'package:mama_kris/pages/search.dart';
+import 'package:mama_kris/pages/tinder.dart';
 
 class LoginPage extends StatefulWidget{
 
@@ -141,7 +145,12 @@ class _LoginPage extends State<LoginPage> {
 
                       // Перенаправляем пользователя в зависимости от его выбора
                       if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
-                        Navigator.pushNamed(context, '/tinder'); // Перенаправление на страницу поиска работы
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => TinderPage()),
+                              (_) => false,
+                        );
+                        // Перенаправление на страницу поиска работы
                       }
                       else if (choice == 'ищу работу') {
                         Navigator.pushNamed(context, '/search'); // Перенаправление на страницу с вакансиями

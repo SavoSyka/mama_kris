@@ -6,6 +6,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Добавьте этот импорт
 import 'package:firebase_auth/firebase_auth.dart'; // Добавьте этот импорт
 import 'package:mama_kris/google_sign.dart';
+import 'package:mama_kris/pages/choice.dart';
+import 'package:mama_kris/pages/tinder.dart';
+import 'package:mama_kris/pages/search.dart';
+import 'package:mama_kris/pages/job_create.dart';
+import 'package:mama_kris/pages/employer_list.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -99,7 +104,7 @@ class StartPage extends StatelessWidget {
                                 backgroundColor: Colors.transparent, // Прозрачный цвет
                                 shadowColor: Colors.transparent, // Убираем тень
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12*TextMultiply),
                                 ),
                                 padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
                               ),
@@ -176,8 +181,11 @@ class StartPage extends StatelessWidget {
                           final bool? isNewUser = await signInWithGoogle();
                           if (isNewUser == true) {
                             // Новый пользователь
-                            Navigator.pushReplacementNamed(context, '/choice');
-                          } else if (isNewUser == false) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => ChoicePage()),
+                                  (_) => false,
+                            );                          } else if (isNewUser == false) {
                             // Пользователь уже существует, получаем дополнительные данные из Firestore
                             final User? user = FirebaseAuth.instance.currentUser;
                             if (user != null) {
@@ -191,20 +199,38 @@ class StartPage extends StatelessWidget {
 
                                 // Перенаправляем пользователя в зависимости от его выбора
                                 if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
-                                  Navigator.pushNamed(context, '/tinder'); // Перенаправление на страницу поиска работы
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => TinderPage()),
+                                        (_) => false,
+                                  );// Перенаправление на страницу поиска работы
                                 }
                                 else if (choice == 'ищу работу') {
-                                  Navigator.pushNamed(context, '/search'); // Перенаправление на страницу с вакансиями
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => JobSearchPage()),
+                                        (_) => false,
+                                  ); // Перенаправление на страницу с вакансиями
                                 }
                                 else if (choice == 'есть вакансии') {
-                                  Navigator.pushNamed(context, '/empl_list'); // Перенаправление на страницу с вакансиями
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => JobsListPage()),
+                                        (_) => false,
+                                  ); // Перенаправление на страницу с вакансиями
                                 } else {
-                                  Navigator.pushReplacementNamed(context, '/choice');
-                                }
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ChoicePage()),
+                                        (_) => false,
+                                  );                                }
                               } else {
                                 // Документ не найден или не содержит выбора
-                                Navigator.pushReplacementNamed(context, '/choice');
-                              }
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ChoicePage()),
+                                      (_) => false,
+                                );                              }
                             } else {
                               print('Ошибка: пользователь не определён после входа через Google.');
                             }

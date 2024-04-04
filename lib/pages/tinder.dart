@@ -29,7 +29,6 @@ class TinderPageState extends State<TinderPage> {
 
     switch(index) {
       case 0:
-        Navigator.pushNamed(context, '/tinder');
         break;
       case 1:
         Navigator.pushNamed(context, '/projects');
@@ -213,16 +212,6 @@ Widget build(BuildContext context) {
         children: <Widget>[
           SineWaveWidget(verticalOffset: 206*VerticalMultiply),
 
-          Padding(
-            padding: EdgeInsets.only(
-                left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
-            child:IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
 
           Padding(
             padding:  EdgeInsets.only(

@@ -21,13 +21,12 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/empl_list');
+        Navigator.pushReplacementNamed(context, '/empl_list');
         break;
       case 1:
-        Navigator.pushNamed(context, '/profile_empl');
         break;
       case 2:
-        Navigator.pushNamed(context, '/support_empl');
+        Navigator.pushReplacementNamed(context, '/support_empl');
         break;
     }
   }
@@ -60,6 +59,16 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
                           width: 220*HorizontalMultiply, // Ширина в пикселях
                           height: 224*VerticalMultiply, // Высота в пикселях
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+                      child:IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                     Padding(

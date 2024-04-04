@@ -30,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
         Navigator.pushReplacementNamed(context, '/projects');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/profile');
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/support');
@@ -57,6 +56,16 @@ class _ProfilePageState extends State<ProfilePage> {
         Stack(
         children: [
         SineWaveWidget(verticalOffset:  340*VerticalMultiply),
+          Padding(
+            padding: EdgeInsets.only(
+                left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+            child:IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
     Align(
     alignment: Alignment.center,
     child: Padding(

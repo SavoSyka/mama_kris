@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:mama_kris/pages/employer_list.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,8 +86,11 @@ class _JobPageState extends State<JobPage> {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Вакансия добавлена')));
         }
 
-        Navigator.pushReplacementNamed(context, '/empl_list');
-      } catch (e) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => JobsListPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Произошла ошибка при сохранении')));
         print(e);
       }

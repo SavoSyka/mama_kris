@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:mama_kris/wave.dart';
+import 'package:mama_kris/pages/choice.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -109,7 +110,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         ),
                       ),
                   ),
-                    ]
+                    ]// Замените SubscribePage() на страницу, на которую хотите перейти
                   else ...[
                 const Padding(
                   padding: EdgeInsets.all(32.0),
@@ -130,7 +131,12 @@ class _VerificationPageState extends State<VerificationPage> {
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();
-      Navigator.pushReplacementNamed(context, '/choice');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ChoicePage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+            (_) => false,
+      );
+
     } else {
       setState(() {});
     }

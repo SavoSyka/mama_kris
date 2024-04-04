@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mama_kris/wave.dart';
+import 'package:mama_kris/pages/tinder.dart';
 
 class JobSearchPage extends StatefulWidget {
   @override
@@ -196,8 +197,11 @@ class _JobSearchPageState extends State<JobSearchPage> {
                             'viewedAdsCount': 0,
                             'hasSubscription': false
                           },  SetOptions(merge: true));
-                          Navigator.pushNamed(context, '/tinder');
-                        }
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => TinderPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+                                (_) => false,
+                          );                        }
                       }
                     },
                       child:  Text('РАЗМЕСТИТЬ',

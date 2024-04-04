@@ -24,13 +24,12 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/empl_list');
+        Navigator.pushReplacementNamed(context, '/empl_list');
         break;
       case 1:
-        Navigator.pushNamed(context, '/profile_empl');
+        Navigator.pushReplacementNamed(context, '/profile_empl');
         break;
       case 2:
-        Navigator.pushNamed(context, '/support_empl');
         break;
     }
   }

@@ -37,7 +37,7 @@ class ChoicePage extends StatelessWidget {
             ),
           ),
 
-          Padding( // Позиционируем кнопку "Ищу работу" на верху экрана
+          Padding(
             padding: EdgeInsets.only(
                 left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
             child:IconButton(

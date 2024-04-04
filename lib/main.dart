@@ -21,6 +21,9 @@ import 'package:mama_kris/pages/support_empl.dart';
 import 'package:mama_kris/pages/conf.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:mama_kris/pages/subscription.dart';
+import 'package:mama_kris/pages/pass_reset.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -121,7 +124,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => FavoritePage());
           case '/subscribe':
             return MaterialPageRoute(builder: (context) => SubscriptionPage());
-
+          case '/reset':
+            return MaterialPageRoute(builder: (context) => ResetPasswordPage());
           case '/choice':
           // Проверяем, подтверждена ли почта пользователя
             final emailVerified =
