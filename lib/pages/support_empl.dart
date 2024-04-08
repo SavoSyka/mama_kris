@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/icon.dart';
 import 'package:mama_kris/pages/conf.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SupportEmplPage extends StatefulWidget {
   @override
@@ -51,9 +52,9 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
             child: ListTile(
               title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
               trailing: const Icon(Icons.send),
-              onTap: () {
+          onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=helpc'),
                 // Код для перехода в Telegram бота
-              },
+
             ),
           ),
           Card(
@@ -96,5 +97,12 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
         onTap: _onItemTapped,
       ),
     );
+  }
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Не удалось открыть $url';
+    }
   }
 }

@@ -153,6 +153,12 @@ class TinderPageState extends State<TinderPage> {
   }
 
   void _likeJob(String jobId) async {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+    double TextMultiply = min(width/360, height/800);
+    double VerticalMultiply = height/800;
+    double HorizontalMultiply = width/360;
     await _markJobAsLiked(jobId); // Помечаем вакансию как просмотренную
     await _updateViewedAdsCount(); // Обновляем количество просмотренных объявлений
 
@@ -168,7 +174,10 @@ class TinderPageState extends State<TinderPage> {
           content: Text(employerContacts),
           actions: <Widget>[
             TextButton(
-              child: const Text('Закрыть'),
+              child:Text(
+                'ЗАКРЫТЬ',
+                style: TextStyle(fontSize: 12*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF659A57)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Закрываем диалог
               },

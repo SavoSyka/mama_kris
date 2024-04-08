@@ -22,6 +22,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
 android {
     namespace "com.mama.mama_kris"
     compileSdkVersion flutter.compileSdkVersion
@@ -64,4 +65,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'ru.cloudpayments.gitpub.integrations.sdk:cloudpayments-android:1.5.3'
+}

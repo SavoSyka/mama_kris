@@ -242,9 +242,7 @@ class _SupportPageState extends State<SupportPage> {
             child: ListTile(
               title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
               trailing: const Icon(Icons.send),
-              onTap: () {
-                // Код для перехода в Telegram бота
-              },
+              onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=helpc'),
             ),
           ),
           Card(
@@ -293,22 +291,13 @@ class _SupportPageState extends State<SupportPage> {
       ),
     );
   }
-}
-
-class PDFScreen extends StatelessWidget {
-  final String path;
-
-  PDFScreen({required this.path});
-
-  @override
-  Widget build(BuildContext context) {
-    return PDFView(
-      filePath: path,
-      autoSpacing: false,
-      enableSwipe: true,
-      pageSnap: true,
-      swipeHorizontal: true,
-      nightMode: false,
-    );
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Не удалось открыть $url';
+    }
   }
 }
+
+

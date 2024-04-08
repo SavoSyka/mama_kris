@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/wave.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:mama_kris/pages/deleting.dart';
+import 'package:mama_kris/pages/start.dart';
+
 import 'dart:math';
 
 class ProfileEmplPage extends StatefulWidget {
@@ -85,7 +88,7 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
                     ),
 
                     Padding(
-                      padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 568*VerticalMultiply, right: 32*HorizontalMultiply, bottom:32*VerticalMultiply), // Общий отступ для группы текстов
+                      padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 496*VerticalMultiply, right: 32*HorizontalMultiply, bottom:32*VerticalMultiply), // Общий отступ для группы текстов
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
@@ -108,9 +111,12 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
                           // Выход из аккаунта
                           await FirebaseAuth.instance.signOut();
 
-                          // Перенаправление на экран входа или на начальный экран приложения
-                          Navigator.pushReplacementNamed(context, '/start');
-                        },
+// Перенаправление на экран входа или на начальный экран приложения
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => StartPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+                                (_) => false,
+                          );                        },
                           child:  Text(
                             'ВЫЙТИ ИЗ АККАУНТА',
                             style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
@@ -119,7 +125,7 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 640*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+                      padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 568*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFB7B39A),
@@ -140,7 +146,28 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
                         },
                       ),
                     ),
-
+                    Padding(
+                      padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 640*VerticalMultiply, right: 32*HorizontalMultiply, bottom:0), // Общий отступ для группы текстов
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFF55567),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12*TextMultiply),
+                          ),
+                          padding: EdgeInsets.only(top: 23*(height/800), bottom:23*(height/800)),
+                        ),
+                        child:  Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                              'УДАЛИТЬ АККАУНТ',
+                              style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
+                          ),
+                        ),
+                        onPressed: () {
+                          deleteUser(context);
+                        },
+                      ),
+                    ),
 
                   ]
               ),
