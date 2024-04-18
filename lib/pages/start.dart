@@ -164,85 +164,84 @@ class StartPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 12 * VerticalMultiply), // Общий отступ для группы текстов
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red, // Цвет фона кнопки
-                          shape: CircleBorder(), // Форма кнопки - круглая
-                          padding: EdgeInsets.all(14*TextMultiply), // Отступ внутри круглой кнопки
-                        ),
-                        child:  FaIcon(
-                          FontAwesomeIcons.google,
-                          color: Colors.white, // Цвет иконки
-                          size: 26*TextMultiply, // Размер иконки
-                        ),
-                        onPressed: () async {
-                          final bool? isNewUser = await signInWithGoogle();
-                          if (isNewUser == true) {
-                            // Новый пользователь
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => ChoicePage()),
-                                  (_) => false,
-                            );                          } else if (isNewUser == false) {
-                            // Пользователь уже существует, получаем дополнительные данные из Firestore
-                            final User? user = FirebaseAuth.instance.currentUser;
-                            if (user != null) {
-                              final uid = user.uid;
-                              final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
-                              final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
+            Padding(
+              padding: EdgeInsets.only(top: 12 * VerticalMultiply), // Общий отступ для группы текстов
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Цвет фона кнопки
+                  shape: CircleBorder(), // Форма кнопки - круглая
+                  padding: EdgeInsets.all(14*TextMultiply), // Отступ внутри круглой кнопки
+                ),
+                child:  FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.white, // Цвет иконки
+                  size: 26*TextMultiply, // Размер иконки
+                ),
+                onPressed: () async {
+                  final bool? isNewUser = await signInWithGoogle();
+                  if (isNewUser == true) {
+                    // Новый пользователь
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChoicePage()),
+                          (_) => false,
+                    );                          } else if (isNewUser == false) {
+                    // Пользователь уже существует, получаем дополнительные данные из Firestore
+                    final User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      final uid = user.uid;
+                      final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
+                      final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
 
-                              // Проверяем, содержит ли документ информацию о выборе пользователя
-                              if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
-                                final choice = docSnapshot.data()!['choice'];
+                      // Проверяем, содержит ли документ информацию о выборе пользователя
+                      if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
+                        final choice = docSnapshot.data()!['choice'];
 
-                                // Перенаправляем пользователя в зависимости от его выбора
-                                if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => TinderPage()),
-                                        (_) => false,
-                                  );// Перенаправление на страницу поиска работы
-                                }
-                                else if (choice == 'ищу работу') {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => JobSearchPage()),
-                                        (_) => false,
-                                  ); // Перенаправление на страницу с вакансиями
-                                }
-                                else if (choice == 'есть вакансии') {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => JobsListPage()),
-                                        (_) => false,
-                                  ); // Перенаправление на страницу с вакансиями
-                                } else {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => ChoicePage()),
-                                        (_) => false,
-                                  );                                }
-                              } else {
-                                // Документ не найден или не содержит выбора
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ChoicePage()),
-                                      (_) => false,
-                                );                              }
-                            } else {
-                              print('Ошибка: пользователь не определён после входа через Google.');
-                            }
-                          } else {
-                            // Ошибка аутентификации или отмена входа пользователем
-                            print("Ошибка аутентификации или вход отменён пользователем");
-                          }
+                        // Перенаправляем пользователя в зависимости от его выбора
+                        if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => TinderPage()),
+                                (_) => false,
+                          );// Перенаправление на страницу поиска работы
+                        }
+                        else if (choice == 'ищу работу') {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => JobSearchPage()),
+                                (_) => false,
+                          ); // Перенаправление на страницу с вакансиями
+                        }
+                        else if (choice == 'есть вакансии') {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => JobsListPage()),
+                                (_) => false,
+                          ); // Перенаправление на страницу с вакансиями
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => ChoicePage()),
+                                (_) => false,
+                          );                                }
+                      } else {
+                        // Документ не найден или не содержит выбора
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChoicePage()),
+                              (_) => false,
+                        );                              }
+                    } else {
+                      print('Ошибка: пользователь не определён после входа через Google.');
+                    }
+                  } else {
+                    // Ошибка аутентификации или отмена входа пользователем
+                    print("Ошибка аутентификации или вход отменён пользователем");
+                  }
 
-                        },
-                      )
-
-                  ),
+                },
+    )
+            )
                 ],
               ),
             ),

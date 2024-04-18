@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mama_kris/icon.dart';
-
+import 'package:mama_kris/pages/tinder.dart';
 class FavoritePage extends StatefulWidget {
   @override
   _FavoritePageState createState() => _FavoritePageState();
@@ -26,7 +26,11 @@ class _FavoritePageState extends State<FavoritePage> {
 
     switch(index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/tinder');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => TinderPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
         break;
       case 1:
         break;

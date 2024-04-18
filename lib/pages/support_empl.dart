@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/icon.dart';
 import 'package:mama_kris/pages/conf.dart';
+import 'package:mama_kris/pages/employer_list.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:mama_kris/pages/employer_list.dart';
 class SupportEmplPage extends StatefulWidget {
   @override
   _SupportEmplPageState createState() => _SupportEmplPageState();
@@ -25,7 +26,11 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
 
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/empl_list');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => JobsListPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
         break;
       case 1:
         Navigator.pushReplacementNamed(context, '/profile_empl');
@@ -52,7 +57,7 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
             child: ListTile(
               title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
               trailing: const Icon(Icons.send),
-          onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=helpc'),
+          onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=help'),
                 // Код для перехода в Telegram бота
 
             ),

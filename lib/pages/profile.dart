@@ -6,7 +6,7 @@ import 'package:mama_kris/icon.dart';
 import 'package:mama_kris/pages/deleting.dart';
 import 'package:mama_kris/pages/start.dart';
 import 'dart:math';
-
+import 'package:mama_kris/pages/tinder.dart';
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -26,7 +26,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
     switch(index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/tinder');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => TinderPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
         break;
       case 1:
         Navigator.pushReplacementNamed(context, '/projects');

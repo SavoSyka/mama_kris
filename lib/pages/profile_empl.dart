@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mama_kris/icon.dart';
 import 'package:mama_kris/pages/deleting.dart';
 import 'package:mama_kris/pages/start.dart';
-
+import 'package:mama_kris/pages/employer_list.dart';
 import 'dart:math';
 
 class ProfileEmplPage extends StatefulWidget {
@@ -24,7 +24,11 @@ class _ProfileEmplPageState extends State<ProfileEmplPage> {
 
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/empl_list');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => JobsListPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
         break;
       case 1:
         break;

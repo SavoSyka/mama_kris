@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mama_kris/icon.dart';
+import 'package:mama_kris/pages/tinder.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:mama_kris/pages/conf.dart';
@@ -202,7 +203,14 @@ class _SupportPageState extends State<SupportPage> {
     );
   }
 
-
+  void _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Не удалось открыть $url';
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -211,7 +219,11 @@ class _SupportPageState extends State<SupportPage> {
 
     switch(index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/tinder');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => TinderPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+              (_) => false,
+        );
         break;
       case 1:
         Navigator.pushReplacementNamed(context, '/projects');
@@ -242,7 +254,7 @@ class _SupportPageState extends State<SupportPage> {
             child: ListTile(
               title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
               trailing: const Icon(Icons.send),
-              onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=helpc'),
+              onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=help'),
             ),
           ),
           Card(
@@ -291,13 +303,7 @@ class _SupportPageState extends State<SupportPage> {
       ),
     );
   }
-  void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Не удалось открыть $url';
-    }
-  }
+
 }
 
 
