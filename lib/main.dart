@@ -19,7 +19,6 @@
   import 'package:mama_kris/pages/profile_empl.dart';
   import 'package:mama_kris/pages/support_empl.dart';
   import 'package:mama_kris/pages/conf.dart';
-  import 'package:flutter_pdfview/flutter_pdfview.dart';
   import 'package:mama_kris/pages/subscription.dart';
   import 'package:mama_kris/pages/pass_reset.dart';
   import 'package:mama_kris/test.dart';
@@ -59,7 +58,7 @@
       final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: Duration(seconds: 10),
-        minimumFetchInterval: Duration(hours: 1),
+        minimumFetchInterval: Duration(minutes: 0),  //TODO: hours:1
       ));
       bool updated = await remoteConfig.fetchAndActivate();
       if (updated) {
@@ -94,13 +93,14 @@
       return 0;
     }
 
-    void _navigateToUpdatePage() {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => UpdateAppPage(
-          appStoreUrl: 'https://www.apple.com/app-store/',
-          playStoreUrl: 'https://play.google.com/store/search?q=MamaKris&c=apps',
-        ),
-      ));
+    void _navigateToUpdatePage() { //TODO: вернуть переход на страницу с обновлением
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //   builder: (context) => UpdateAppPage(
+      //     appStoreUrl: 'https://www.apple.com/app-store/',
+      //     playStoreUrl: 'https://play.google.com/store/search?q=MamaKris&c=apps',
+      //   ),
+      // ));
+      _navigateToNextScreen(); //TODO: это надо будте убрать
     }
     void _navigateToNextScreen() async {
 
@@ -207,21 +207,4 @@
     }
   }
 
-  class PDFScreen extends StatelessWidget {
-    final String path;
-
-    PDFScreen({required this.path});
-
-    @override
-    Widget build(BuildContext context) {
-      return PDFView(
-        filePath: path,
-        autoSpacing: false,
-        enableSwipe: true,
-        pageSnap: true,
-        swipeHorizontal: true,
-        nightMode: false,
-      );
-    }
-  }
 
