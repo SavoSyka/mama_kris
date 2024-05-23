@@ -6,6 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
+
+
 class RegistrationPage extends StatefulWidget {
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
@@ -69,6 +71,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       width: 220*HorizontalMultiply, // Ширина в пикселях
                       height: 224*VerticalMultiply, // Высота в пикселях
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: 5.0*HorizontalMultiply, top: 35*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0.0),
+                  child:IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
                 Padding(
@@ -194,7 +206,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       if (userCredential.user != null) {
         await userCredential.user!.sendEmailVerification();
-        Navigator.pushReplacementNamed(context, '/verification');
+        Navigator.pushNamed(context, '/verification');
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Произошла ошибка. Пожалуйста, попробуйте ещё раз.';
@@ -236,7 +248,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       );
     }
   }
-
 
   Widget _buildEmailField(TextEditingController controller, double Hpadding, double Vpadding) {
     Size screenSize = MediaQuery.of(context).size;

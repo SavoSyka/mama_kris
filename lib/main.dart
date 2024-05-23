@@ -23,6 +23,9 @@
   import 'package:mama_kris/pages/pass_reset.dart';
   import 'package:mama_kris/test.dart';
   import 'package:mama_kris/pages/update.dart';
+  import 'package:mama_kris/pages/thx_empl.dart';
+  import 'package:mama_kris/pages/thx_ee.dart';
+
   import 'package:firebase_remote_config/firebase_remote_config.dart';
   import 'package:package_info_plus/package_info_plus.dart';
 

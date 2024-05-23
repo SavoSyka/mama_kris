@@ -3,20 +3,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart'; // Добавьте этот импорт
 import 'package:firebase_auth/firebase_auth.dart';
 
-
+// это важный файл и не надо его случайно удалять
 Future<String> getInitialRoute() async {
   await Firebase.initializeApp();
   User? user = FirebaseAuth.instance.currentUser;
 
   if (user == null) {
     // Пользователь не вошел
-    return '/start';
+    return '/welcome';
   } else {
     // Проверяем, вошел ли пользователь через Google
     bool isGoogleUser = user.providerData.any((provider) => provider.providerId == 'google.com');
 
     // Проверяем, подтверждена ли почта пользователя
     bool isEmailVerified = user.emailVerified;
+
 
     if (isGoogleUser || isEmailVerified) {
       // Пользователь вошел через Google или его email подтвержден

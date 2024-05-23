@@ -115,6 +115,11 @@ class ChoicePage extends StatelessWidget {
                   await collection.doc(uid).set({'choice': 'есть вакансии'});
                   Navigator.pushNamed(context, '/job');
                 }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Ошибка сохранения: ${e.toString()}'))
+                  );
+                }
               },
               child:  Text(
                   'Я РАБОТОДАТЕЛЬ',

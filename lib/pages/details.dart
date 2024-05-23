@@ -8,170 +8,18 @@ import 'package:mama_kris/pages/subscription.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
+import 'package:mama_kris/pages/tinder.dart';
 
-class TinderPage extends StatefulWidget {
+class JobDetailsPage extends StatefulWidget {
+  final Map<String, dynamic> jobData;
+
+  const JobDetailsPage({Key? key, required this.jobData}) : super(key: key);
+
   @override
-  TinderPageState createState() => TinderPageState();
+  _JobDetailsPageState createState() => _JobDetailsPageState();
 }
 
-
-class TinderPageState extends State<TinderPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  List<String> _likedJobsIds = [];
-  List<String> _dislikedJobsIds = [];
-  DocumentSnapshot? _randomJob;
-  int _selectedIndex = 0; // Индекс для отслеживания текущего выбранного элемента
-  bool _isLoading = true; // Индикатор загрузки
-
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch(index) {
-      case 0:
-        break;
-      case 1:
-        Navigator.pushNamed(context, '/projects');
-        break;
-      case 2:
-        Navigator.pushNamed(context, '/profile');
-        break;
-      case 3:
-        Navigator.pushNamed(context, '/support');
-        break;
-    }
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
-    _loadActionsAndFetchRandomJob();
-  }
-
-  Future<void> _loadActionsAndFetchRandomJob() async {
-    await _loadActionsIds();
-    await _fetchRandomJob();
-  }
-
-  Future<void> _loadActionsIds() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      final docSnapshot = await _firestore.collection('userActions').doc(user.uid).get();
-      if (docSnapshot.exists) {
-        setState(() {
-          _likedJobsIds = List.from(docSnapshot.data()?['likes'] ?? []);
-          _dislikedJobsIds = List.from(docSnapshot.data()?['dislikes'] ?? []);
-        });
-      }
-    }
-  }
-
-  Future<void> _markJobAsLiked(String jobId) async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      await _firestore.collection('userActions').doc(user.uid).set({
-        'likes': FieldValue.arrayUnion([jobId])
-      }, SetOptions(merge: true));
-      _likedJobsIds.add(jobId);
-    }
-  }
-
-  Future<void> _markJobAsDisliked(String jobId) async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      await _firestore.collection('userActions').doc(user.uid).set({
-        'dislikes': FieldValue.arrayUnion([jobId])
-      }, SetOptions(merge: true));
-      _dislikedJobsIds.add(jobId);
-    }
-  }
-
-  Future<void> _updateViewedAdsCount() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      // Получаем текущее количество просмотров
-      final docSnapshot = await _firestore.collection('jobSearches').doc(user.uid).get();
-      int currentCount = docSnapshot.data()?['viewedAdsCount'] ?? 0;
-      // Увеличиваем счетчик на 1
-      await _firestore.collection('jobSearches').doc(user.uid).set({
-        'viewedAdsCount': currentCount + 1,
-      }, SetOptions(merge: true));
-    }
-  }
-
-  Future<void> _fetchRandomJob() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      final userDoc = await _firestore.collection('jobSearches')
-          .doc(user.uid)
-          .get();
-
-      bool hasSubscription = userDoc.data()?['hasSubscription'] ?? false;
-      int viewedAdsCount = userDoc.data()?['viewedAdsCount'] ?? 0;
-      bool openToPermanent = userDoc.data()?['openToPermanent'] ?? false;
-      bool openToTemporary = userDoc.data()?['openToTemporary'] ?? false;
-      String candidateSphere = userDoc.data()?['sphere'] ?? '';
-
-
-      if (!hasSubscription && viewedAdsCount >= 3) {
-        // Показываем диалог о необходимости подписки
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => SubscriptionPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
-              (_) => false,
-        );
-        return;
-      }
-      // final querySnapshot = await FirebaseFirestore.instance
-      //     .collection('jobs')
-      //     .where('status', isEqualTo: 'approved') // Фильтр по статусу 'approved'
-      //
-      // // .where('jobType', isEqualTo: 'desiredJobType') // Условие для jobType
-      // // .where('sphere', isEqualTo: 'desiredSphere') // Условие для sphere
-      //     .get();
-      //
-
-      Query query = _firestore.collection('jobs').where('status', isEqualTo: 'approved');
-
-      // Примените фильтры в зависимости от параметров пользователя
-      if (openToPermanent && openToTemporary) {
-        // Если открыты для обоих типов, ничего не фильтруем
-      } else if (openToPermanent) {
-        query = query.where('jobType', isEqualTo: 'const');
-      } else if (openToTemporary) {
-        query = query.where('jobType', isEqualTo: 'once');
-      }
-
-      if (candidateSphere != "Все вакансии интересны, так как только изучаю рынок онлайна и первый раз смотрю в сторону онлайн заработка") {
-        query = query.where('sphere', isEqualTo: candidateSphere);
-      }
-      final querySnapshot = await query.get();
-
-
-      final allJobsIds = querySnapshot.docs.map((doc) => doc.id).toList();
-      final unviewedJobsIds = allJobsIds.where((id) =>
-      !_likedJobsIds.contains(id) && !_dislikedJobsIds.contains(id)).toList();
-
-      if (unviewedJobsIds.isNotEmpty) {
-        final randomIndex = Random().nextInt(unviewedJobsIds.length);
-        final randomJobId = unviewedJobsIds[randomIndex];
-        setState(() {
-          _randomJob =
-              querySnapshot.docs.firstWhere((doc) => doc.id == randomJobId);
-          _isLoading = false; // Загрузка завершена
-        });
-      } else {
-        setState(() {
-          _randomJob = null;
-          _isLoading = false; // Загрузка завершена
-        });
-      }
-    }
-  }
+class _JobDetailsPageState extends State<JobDetailsPage> {
 
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -220,6 +68,9 @@ class TinderPageState extends State<TinderPage> {
       else {
         // Если не удалось, копируем адрес электронной почты в буфер обмена
         await Clipboard.setData(ClipboardData(text: email));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(content: Text('Адрес электронной почты скопирован: $email'))
+        // );
         showOverlayMessage(context, 'Адрес электронной почты скопирован: $email');
       }
     } catch (e) {
@@ -258,14 +109,17 @@ class TinderPageState extends State<TinderPage> {
     overlay?.insert(overlayEntry);
 
     // Удалить сообщение через 3 секунды
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       overlayEntry.remove();
     });
   }
 
 
+  void _getContacts() {
+    String employerContacts = widget.jobData['contactLink'] ?? 'Нет контактов';
+    String employerName = widget.jobData['name'] ?? 'Неизвестно';
+    String contactProvider = widget.jobData['provider'] ?? 'nan';
 
-  void _likeJob(String jobId) async {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -274,13 +128,7 @@ class TinderPageState extends State<TinderPage> {
     double HorizontalMultiply = width/360;
 
 
-    await _markJobAsLiked(jobId); // Помечаем вакансию как просмотренную
-    await _updateViewedAdsCount(); // Обновляем количество просмотренных объявлений
 
-    // Получаем контакты работодателя из _randomJob
-    String employerContacts = _randomJob!['contactLink'] ?? 'Нет контактов';
-    String employerName = _randomJob!['name'] ?? 'Неизвестно';
-    String contactProvider = _randomJob!['provider'] ?? 'nan';
     String employerContactsBackub = employerContacts;
     // Формируем контактную ссылку в зависимости от провайдера
     if (contactProvider == 'Telegram') {
@@ -420,17 +268,8 @@ class TinderPageState extends State<TinderPage> {
           ),
         );
       },
-    ).then((_) => _fetchRandomJob()); // После закрытия модального окна загружаем следующую вакансию
+    );
   }
-
-
-  void _dislikeJob(String jobId) async {
-    await _markJobAsDisliked(jobId);
-    await _updateViewedAdsCount(); // Обновляем количество просмотренных объявлений
-    await _fetchRandomJob();
-  }
-
-
 
 
   @override
@@ -441,13 +280,36 @@ class TinderPageState extends State<TinderPage> {
     double TextMultiply = min(width/360, height/800);
     double VerticalMultiply = height/800;
     double HorizontalMultiply = width/360;
+    int _selectedIndex = 1; // Индекс для отслеживания текущего выбранного элемента
 
-    final screenHeight = MediaQuery.of(context).size.height;
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+
+      switch(index) {
+        case 0:
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => TinderPage()),
+                (_) => false,
+          );
+          break;
+        case 1:
+          Navigator.pushReplacementNamed(context, '/projects');
+          break;
+        case 2:
+          Navigator.pushReplacementNamed(context, '/profile');
+          break;
+        case 3:
+          Navigator.pushReplacementNamed(context, '/support');
+          break;
+      }
+    }
+
+
     return Scaffold(
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _randomJob != null
-          ? Stack(
+      body:Stack(
           children: [
             SingleChildScrollView(
               child: Column(
@@ -464,7 +326,7 @@ class TinderPageState extends State<TinderPage> {
                               left: 28*HorizontalMultiply, top: 82*VerticalMultiply, right: 28*HorizontalMultiply, bottom: 0),
 
                           child: Text(
-                            '${_randomJob!['title']}',
+                            '${widget.jobData!['title']}',
                             style: TextStyle(fontSize: 24*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w700, color: Color(0xFF343434)),
                             textAlign: TextAlign.left, // Добавляем здесь
                           ),
@@ -473,7 +335,7 @@ class TinderPageState extends State<TinderPage> {
                           padding:  EdgeInsets.only(
                               left: 32.0*HorizontalMultiply, top: 238.0*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0),
                           child: Text(
-                            ' ${_randomJob!['description']}',
+                            ' ${widget.jobData!['description']}',
                             style: TextStyle(fontSize: 16*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
                             textAlign: TextAlign.left,
                           ),
@@ -486,7 +348,7 @@ class TinderPageState extends State<TinderPage> {
                         padding:  EdgeInsets.only(
                             left: 32.0*HorizontalMultiply, top: 30*VerticalMultiply, right: 32.0*HorizontalMultiply, bottom: 0),
                         child: Text(
-                          ' Примерная оплата: ${_randomJob!['salary']}₽',
+                          ' Примерная оплата: ${widget.jobData!['salary']}₽',
                           style: TextStyle(fontSize: 16*TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
                           textAlign: TextAlign.center,
                         ),
@@ -517,7 +379,15 @@ class TinderPageState extends State<TinderPage> {
                       ),
 
                       child: ElevatedButton(
-                        onPressed: () => _likeJob(_randomJob!.id),
+                        onPressed: () {
+                          if (widget.jobData.containsKey('contactLink') && widget.jobData['contactLink'] != null) {
+                            _getContacts(); // Используем контакты непосредственно из `widget.jobData`
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Ошибка: Контактные данные недоступны.'))
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent, // Прозрачный фон для отображения градиента
                           shadowColor: Colors.transparent, // Убираем тень
@@ -529,11 +399,14 @@ class TinderPageState extends State<TinderPage> {
                           padding: EdgeInsets.symmetric(vertical: 15*TextMultiply),
 
                         ),
-                        child: const Icon(Icons.favorite, color: Colors.white),
-                      ),
+                        child:  Text(
+                          'КОНТАКТ',
+                          style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                        ),                      ),
                     ),
+
                     ElevatedButton(
-                      onPressed: () => _dislikeJob(_randomJob!.id),
+                      onPressed: () =>   Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFD1CEB9), // Цвет фона кнопки
                         foregroundColor: Colors.white, // Цвет иконки
@@ -543,46 +416,44 @@ class TinderPageState extends State<TinderPage> {
                         minimumSize:  Size(144*TextMultiply, 60*TextMultiply), // Минимальный размер кнопки
 
                       ),
-                      child: const Icon(Icons.arrow_forward, color: Color(0xFF343434)),
-                    ),
+                      child:  Text(
+                        'НАЗАД',
+                        style: TextStyle(fontSize: 14*TextMultiply, color: const Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                      ),                    ),
                   ],
                 )
 
             ),
 
-
           ]
-      )
-          : const Center(
-        child: Text('Больше вакансий нет', style: TextStyle(fontSize: 24)),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: DoubleIcon(
-              bottomIconAsset: 'images/icons/main-bg.svg',
-              topIconAsset: 'images/icons/main.svg',
-            ),
+            icon: SvgIcon('images/icons/main.svg'),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: SvgIcon('images/icons/projects.svg'),
-            label: 'Проекты',
+            icon: DoubleIcon(
+              bottomIconAsset: 'images/icons/projects-bg.svg',
+              topIconAsset: 'images/icons/projects.svg',
+            ),            label: 'Проекты',
           ),
           BottomNavigationBarItem(
-            icon: SvgIcon('images/icons/profile.svg',),
+            icon: SvgIcon('images/icons/profile.svg'),
             label: 'Профиль',
           ),
           BottomNavigationBarItem(
-            icon: SvgIcon('images/icons/support.svg'),
+            icon: SvgIcon('images/icons/support.svg',
+            ),
             label: 'Поддержка',
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
         selectedItemColor: Colors.black, // Цвет выбранного элемента
         unselectedItemColor: Colors.black, // Цвет не выбранного элемента
+        onTap: _onItemTapped,
       ),
     );
   }

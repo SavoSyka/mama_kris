@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Добавляем queries для обработки URL-схем http и https -->
@@ -36,17 +43,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW"/>-->
-<!--                <category android:name="android.intent.category.DEFAULT"/>-->
-<!--                <category android:name="android.intent.category.BROWSABLE"/>-->
-<!--                &lt;!&ndash; Схема и хост для URL-адреса, который вы хотите открывать &ndash;&gt;-->
-<!--                <data android:scheme="http" android:host="www.google.com"/>-->
-<!--                <data android:scheme="https" android:host="www.google.com"/>-->
-<!--                <data android:scheme="https"-->
-<!--                    android:host="t.me"-->
-<!--                    android:pathPrefix="/MamaKris_support_bot"/>-->
-<!--            </intent-filter>-->
+    
         </activity>
 
         <!-- Don't delete the meta-data below.

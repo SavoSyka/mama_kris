@@ -55,13 +55,13 @@ class _JobsListPageState extends State<JobsListPage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0ECD3),
-    appBar: AppBar(
-      backgroundColor: const Color(0xFFF0ECD3),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF0ECD3),
 
-      title: const Text('Мои объявления',
-        style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
+        title: const Text('Мои объявления',
+          style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
+        ),
       ),
-    ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('jobs').where('employerId', isEqualTo: _auth.currentUser?.uid).snapshots(),
         builder: (context, snapshot) {
@@ -112,56 +112,58 @@ class _JobsListPageState extends State<JobsListPage> {
                         borderRadius: BorderRadius.circular(10*TextMultiply),
                       ),
                       color: Color(0xFFFFFFFF),
-                      child: Stack(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              jobData['title'] ?? 'Без названия',
-                              style: TextStyle(fontSize: 18 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Text(
-                              jobData['description'] ?? 'Без описания',
-                              style: TextStyle(fontSize: 12 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Positioned(
-                            right: 8*HorizontalMultiply,
-                            bottom: 8*VerticalMultiply,
-                            child: Text(
-                              statusText,
-                              style: TextStyle(color: statusColor, fontSize: 12 * TextMultiply, fontWeight: FontWeight.bold),
+                      child: PopupMenuButton<String>(
+                        onSelected: (String value) {
+                          if (value == 'edit') {
+                            _editJob(jobData);
+                          } else if (value == 'delete') {
+                            _deleteJob(job.id);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'edit',
+                            child: ListTile(
+                              leading: Icon(Icons.edit),
+                              title: Text('Редактировать'),
                             ),
                           ),
-                          Positioned(
-                            top: 4*VerticalMultiply,
-                            right: 4*HorizontalMultiply,
-                            child: PopupMenuButton<String>(
-                              onSelected: (String value) {
-                                if (value == 'edit') {
-                                  _editJob(jobData);
-                                } else if (value == 'delete') {
-                                  _deleteJob(job.id);
-                                }
-                              },
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                                const PopupMenuItem<String>(
-                                  value: 'edit',
-                                  child: Text('Редактировать'),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: 'delete',
-                                  child: Text('Удалить'),
-                                ),
-                              ],
+                          const PopupMenuItem<String>(
+                            value: 'delete',
+                            child: ListTile(
+                              leading: Icon(Icons.delete),
+                              title: Text('Удалить'),
                             ),
                           ),
                         ],
+                        child: Stack(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                jobData['title'] ?? 'Без названия',
+                                style: TextStyle(fontSize: 18 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                jobData['description'] ?? 'Без описания',
+                                style: TextStyle(fontSize: 12 * TextMultiply, fontFamily: 'Inter1', fontWeight: FontWeight.w500, color: Color(0xFF343434)),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                            Positioned(
+                              right: 8*HorizontalMultiply,
+                              bottom: 8*VerticalMultiply,
+                              child: Text(
+                                statusText,
+                                style: TextStyle(color: statusColor, fontSize: 12 * TextMultiply, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  )
               );
             },
           );

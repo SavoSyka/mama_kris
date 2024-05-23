@@ -12,6 +12,7 @@ import 'package:mama_kris/pages/search.dart';
 import 'package:mama_kris/pages/job_create.dart';
 import 'package:mama_kris/pages/employer_list.dart';
 
+
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,12 @@ class StartPage extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 58*VerticalMultiply), // Отступ сверху
-                  child: SvgPicture.asset(
-                    "images/logo_named.svg",
-                    width: 220*HorizontalMultiply, // Ширина в пикселях
-                    height: 224*VerticalMultiply, // Высота в пикселях
-                  )
+                    padding: EdgeInsets.only(top: 58*VerticalMultiply), // Отступ сверху
+                    child: SvgPicture.asset(
+                      "images/logo_named.svg",
+                      width: 220*HorizontalMultiply, // Ширина в пикселях
+                      height: 224*VerticalMultiply, // Высота в пикселях
+                    )
                 ),
               ),
             ],
@@ -70,7 +71,7 @@ class StartPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                   Padding(
+                  Padding(
                     padding:  EdgeInsets.only(left: 32*HorizontalMultiply, top: 8*VerticalMultiply, right:0, bottom:0), // Общий отступ для группы текстов
                     child:  Align(
                       alignment: Alignment.centerLeft,
@@ -109,7 +110,7 @@ class StartPage extends StatelessWidget {
                                 padding: EdgeInsets.only(top: 23*VerticalMultiply, bottom:23*VerticalMultiply),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/welcome');
+                                Navigator.pushNamed(context, '/registration');
                               },
                               child:  Align(
                                 alignment: Alignment.center,
@@ -141,7 +142,7 @@ class StartPage extends StatelessWidget {
                             child:  Align(
                               alignment: Alignment.center,
                               child: Text(
-                                'ВОЙТИ',
+                                  'ВОЙТИ',
                                   style: TextStyle(fontSize: 14*TextMultiply, color: Color(0xFFFFFFFF), fontFamily: 'Inter', fontWeight: FontWeight.w700)
                               ),
                             ),
@@ -164,84 +165,109 @@ class StartPage extends StatelessWidget {
                       ),
                     ),
                   ),
-            Padding(
-              padding: EdgeInsets.only(top: 12 * VerticalMultiply), // Общий отступ для группы текстов
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Цвет фона кнопки
-                  shape: CircleBorder(), // Форма кнопки - круглая
-                  padding: EdgeInsets.all(14*TextMultiply), // Отступ внутри круглой кнопки
-                ),
-                child:  FaIcon(
-                  FontAwesomeIcons.google,
-                  color: Colors.white, // Цвет иконки
-                  size: 26*TextMultiply, // Размер иконки
-                ),
-                onPressed: () async {
-                  final bool? isNewUser = await signInWithGoogle();
-                  if (isNewUser == true) {
-                    // Новый пользователь
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChoicePage()),
-                          (_) => false,
-                    );                          } else if (isNewUser == false) {
-                    // Пользователь уже существует, получаем дополнительные данные из Firestore
-                    final User? user = FirebaseAuth.instance.currentUser;
-                    if (user != null) {
-                      final uid = user.uid;
-                      final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
-                      final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
+                  Padding(
+                    padding: EdgeInsets.only(top: 12 * VerticalMultiply), // Общий отступ для группы текстов
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // Цвет фона кнопки
+                            shape: CircleBorder(), // Форма кнопки - круглая
+                            padding: EdgeInsets.all(14*TextMultiply), // Отступ внутри круглой кнопки
+                          ),
+                          child:  FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Colors.white, // Цвет иконки
+                            size: 26*TextMultiply, // Размер иконки
+                          ),
+                          onPressed: () async {
+                            print('pressed');
+                            final bool? isNewUser = await signInWithGoogle();
+                            print('func done');
+                            if (isNewUser == true) {
+                              // Новый пользователь
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => ChoicePage()),
+                                    (_) => false,
+                              );
+                            }
+                            else if (isNewUser == false) {
+                              // Пользователь уже существует, получаем дополнительные данные из Firestore
+                              final User? user = FirebaseAuth.instance.currentUser;
+                              if (user != null) {
+                                final uid = user.uid;
+                                final docSnapshot = await FirebaseFirestore.instance.collection('choices').doc(uid).get();
+                                final docSnapshot2 = await FirebaseFirestore.instance.collection('jobSearches').doc(uid).get();
 
-                      // Проверяем, содержит ли документ информацию о выборе пользователя
-                      if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
-                        final choice = docSnapshot.data()!['choice'];
+                                // Проверяем, содержит ли документ информацию о выборе пользователя
+                                if (docSnapshot.exists && docSnapshot.data()!.containsKey('choice')) {
+                                  final choice = docSnapshot.data()!['choice'];
 
-                        // Перенаправляем пользователя в зависимости от его выбора
-                        if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => TinderPage()),
-                                (_) => false,
-                          );// Перенаправление на страницу поиска работы
-                        }
-                        else if (choice == 'ищу работу') {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => JobSearchPage()),
-                                (_) => false,
-                          ); // Перенаправление на страницу с вакансиями
-                        }
-                        else if (choice == 'есть вакансии') {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => JobsListPage()),
-                                (_) => false,
-                          ); // Перенаправление на страницу с вакансиями
-                        } else {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => ChoicePage()),
-                                (_) => false,
-                          );                                }
-                      } else {
-                        // Документ не найден или не содержит выбора
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChoicePage()),
-                              (_) => false,
-                        );                              }
-                    } else {
-                      print('Ошибка: пользователь не определён после входа через Google.');
-                    }
-                  } else {
-                    // Ошибка аутентификации или отмена входа пользователем
-                    print("Ошибка аутентификации или вход отменён пользователем");
-                  }
+                                  // Перенаправляем пользователя в зависимости от его выбора
+                                  if (choice == 'ищу работу' && docSnapshot2.exists && docSnapshot2.data()!.containsKey('employerId')) {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => TinderPage()),
+                                          (_) => false,
+                                    );// Перенаправление на страницу поиска работы
+                                  }
+                                  else if (choice == 'ищу работу') {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => JobSearchPage()),
+                                          (_) => false,
+                                    ); // Перенаправление на страницу с вакансиями
+                                  }
+                                  else if (choice == 'есть вакансии') {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => JobsListPage()),
+                                          (_) => false,
+                                    ); // Перенаправление на страницу с вакансиями
+                                  } else {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => ChoicePage()),
+                                          (_) => false,
+                                    );                                }
+                                } else {
+                                  // Документ не найден или не содержит выбора
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ChoicePage()),
+                                        (_) => false,
+                                  );                              }
+                              } else {
+                                print('Ошибка: пользователь не определён после входа через Google.');
+                              }
+                            } else {
+                              // Ошибка аутентификации или отмена входа пользователем
+                              print("Ошибка аутентификации или вход отменён пользователем");
+                            }
 
-                },
-    )
-            )
+                          },
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 7 * VerticalMultiply), // Общий отступ для группы текстов
+                    child: TextButton(
+                      child:  Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Сбросить пароль',
+                          style: TextStyle(fontSize: 13*TextMultiply, fontFamily: 'Inter', fontWeight: FontWeight.w500, color: const Color(0xFF343434),decoration: TextDecoration.underline,),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/reset');
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

@@ -73,5 +73,5 @@ flutter {
 }
 
 dependencies {
-    implementation 'ru.cloudpayments.gitpub.integrations.sdk:cloudpayments-android:1.5.3'
+    //implementation 'ru.cloudpayments.gitpub.integrations.sdk:cloudpayments-android:1.5.3'
 }

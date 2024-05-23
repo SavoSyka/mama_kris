@@ -4,6 +4,8 @@ import 'package:mama_kris/pages/conf.dart';
 import 'package:mama_kris/pages/employer_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mama_kris/pages/employer_list.dart';
+
+
 class SupportEmplPage extends StatefulWidget {
   @override
   _SupportEmplPageState createState() => _SupportEmplPageState();
@@ -28,7 +30,7 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
       case 0:
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => JobsListPage()), // Замените SubscribePage() на страницу, на которую хотите перейти
+          MaterialPageRoute(builder: (context) => JobsListPage()),
               (_) => false,
         );
         break;
@@ -46,7 +48,9 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFF0ECD3),
 
-        title: const Text(''),
+        title: const Text('Поддержка',
+          style: TextStyle(fontSize: 25, fontFamily: 'Inter', fontWeight: FontWeight.w800, color: Color(0xFF343434)),
+        ),
       ),
       backgroundColor: const Color(0xFFF0ECD3),
 
@@ -57,8 +61,8 @@ class _SupportEmplPageState extends State<SupportEmplPage> {
             child: ListTile(
               title: const Text('Поддержка.\nНапишите нам, если у Вас остались вопросы, замечания, предложения.'),
               trailing: const Icon(Icons.send),
-          onTap: ()  => _launchURL('https://t.me/MamaKris_support_bot?start=help'),
-                // Код для перехода в Telegram бота
+              onTap: () => _launchURL('https://t.me/MamaKris_support_bot?start=help'),
+              // Код для перехода в Telegram бота
 
             ),
           ),
